@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "game": "Anno 1800",
+  "maps": [
+    {
+      "Map_Name": "colony01_l_02_skin",
+      "Region": "Arctic",
+      "Map_Package": "White and Cold",
+      "GUID": 2000000,
+      "Map_File": "C:\\Users\\mf\\Downloads\\00_Maps\\0_original\\white_and_cold\\colony01_l_02_skin\\colony01_l_02_skin.a7m"
+    },
+    {
+      "Map_Name": "colony01_l_03_skin",
+      "Region": "Arctic",
+      "Map_Package": "White and Cold",
+      "GUID": 2000001,
+      "Map_File": "C:\\Users\\mf\\Downloads\\00_Maps\\0_original\\white_and_cold\\colony01_l_03_skin\\colony01_l_03_skin.a7m"
+    },
+    {
+      "Map_Name": "colony01_l_04_skin",
+      "Region": "Arctic",
+      "Map_Package": "White and Cold",
+      "GUID": 2000002,
+      "Map_File": "C:\\Users\\mf\\Downloads\\00_Maps\\0_original\\white_and_cold\\colony01_l_04_skin\\colony01_l_04_skin.a7m"
+    },
+    {
+      "Map_Name": "colony01_l_05_skin",
+      "Region": "Arctic",
+      "Map_Package": "White and Cold",
+      "GUID": 2000003,
+      "Map_File": "C:\\Users\\mf\\Downloads\\00_Maps\\0_original\\white_and_cold\\colony01_l_05_skin\\colony01_l_05_skin.a7m"
+    },
+    {
+      "Map_Name": "colony01_m_01_skin",
+      "Region": "Arctic",
+      "Map_Package": "White and Cold",
+      "GUID": 2000004,
+      "Map_File": "C:\\Users\\mf\\Downloads\\00_Maps\\0_original\\white_and_cold\\colony01_m_01_skin\\colony01_m_01_skin.a7m"
+    },
+    {
+      "Map_Name": "colony01_m_02_skin",
+      "Region": "Arctic",
+      "Map_Package": "White and Cold",
+      "GUID": 2000005,
+      "Map_File": "C:\\Users\\mf\\Downloads\\00_Maps\\0_original\\white_and_cold\\colony01_m_02_skin\\colony01_m_02_skin.a7m"
+    },
+    {
+      "Map_Name": "colony01_m_04_skin",
+      "Region": "Arctic",
+      "Map_Package": "White and Cold",
+      "GUID": 2000006,
+      "Map_File": "C:\\Users\\mf\\Downloads\\00_Maps\\0_original\\white_and_cold\\colony01_m_04_skin\\colony01_m_04_skin.a7m"
+    },
+    {
+      "Map_Name": "colony01_m_06_skin",
+      "Region": "Arctic",
+      "Map_Package": "White and Cold",
+      "GUID": 2000007,
+      "Map_File": "C:\\Users\\mf\\Downloads\\00_Maps\\0_original\\white_and_cold\\colony01_m_06_skin\\colony01_m_06_skin.a7m"
+    },
+    {
+      "Map_Name": "colony01_s_01_skin",
+      "Region": "Arctic",
+      "Map_Package": "White and Cold",
+      "GUID": 2000008,
+      "Map_File": "C:\\Users\\mf\\Downloads\\00_Maps\\0_original\\white_and_cold\\colony01_s_01_skin\\colony01_s_01_skin.a7m"
+    },
+    {
+      "Map_Name": "colony01_s_02_skin",
+      "Region": "Arctic",
+      "Map_Package": "White and Cold",
+      "GUID": 2000009,
+      "Map_File": "C:\\Users\\mf\\Downloads\\00_Maps\\0_original\\white_and_cold\\colony01_s_02_skin\\colony01_s_02_skin.a7m"
+    },
+    {
+      "Map_Name": "colony01_s_03_skin",
+      "Region": "Arctic",
+      "Map_Package": "White and Cold",
+      "GUID": 2000010,
+      "Map_File": "C:\\Users\\mf\\Downloads\\00_Maps\\0_original\\white_and_cold\\colony01_s_03_skin\\colony01_s_03_skin.a7m"
+    },
+    {
+      "Map_Name": "colony01_s_04_skin",
+      "Region": "Arctic",
+      "Map_Package": "White and Cold",
+      "GUID": 2000011,
+      "Map_File": "C:\\Users\\mf\\Downloads\\00_Maps\\0_original\\white_and_cold\\colony01_s_04_skin\\colony01_s_04_skin.a7m"
+    },
+    {
+      "Map_Name": "moderate_c_01",
+      "Region": "The Old World",
+      "Map_Package": "",
+      "GUID": 2000012,
+      "Map_File": "C:\\Users\\mf\\Downloads\\00_Maps\\0_original\\Taludas Riverslots OW\\moderate_c_01\\moderate_c_01.a7m"
+    }
+  ],
+  "map_packages": [
+    {
+      "name": "White and Cold",
+      "region": "Arctic",
+      "use_different_guid_ranges": false,
+      "guid_start": "",
+      "guid_end": "",
+      "id": "00"
+    }
+  ],
+  "custom_regions": [
+    {
+      "region": "Horai",
+      "id": "Mod2"
+    }
+  ]
+}

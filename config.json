@@ -3,12 +3,12 @@
   "worker_count": 4,
   "games": {
     "Anno 117": {
-      "guid_start": "",
-      "guid_end": ""
+      "guid_start": "1000000",
+      "guid_end": "1000999"
     },
     "Anno 1800": {
-      "guid_start": "",
-      "guid_end": ""
+      "guid_start": "2000000",
+      "guid_end": "2000999"
     }
   }
 }
