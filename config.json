@@ -1,0 +1,14 @@
+{
+  "selected_game": "Anno 117",
+  "worker_count": 4,
+  "games": {
+    "Anno 117": {
+      "guid_start": "",
+      "guid_end": ""
+    },
+    "Anno 1800": {
+      "guid_start": "",
+      "guid_end": ""
+    }
+  }
+}
