@@ -7,3 +7,4 @@ dist/
 packed/
 .pytest_cache/
 *.spec
+config*.json
