@@ -1,14 +1,18 @@
 {
-  "selected_game": "Anno 117",
+  "selected_game": "Anno 1800",
   "worker_count": 4,
+  "creator": "gz2k2",
+  "creator_url": "https://www.github.com/gz2k2",
   "games": {
     "Anno 117": {
       "guid_start": "1000000",
-      "guid_end": "1000999"
+      "guid_end": "1000999",
+      "default_export_path": ""
     },
     "Anno 1800": {
       "guid_start": "2000000",
-      "guid_end": "2000999"
+      "guid_end": "2000999",
+      "default_export_path": ""
     }
   }
 }

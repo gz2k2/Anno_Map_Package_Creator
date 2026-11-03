@@ -1,5 +1,6 @@
 import customtkinter as ctk
 import tkinter as tk
+from tkinter import filedialog
 from app.config.config_app import SUPPORTED_GAMES
 from app.functions.function_settings import save_custom_regions
 from app.templates.template_table import SortableTable
@@ -7,7 +8,7 @@ from app.templates.template_dialog import TextInputDialog,ConfirmDialog,AppDialo
 
 class SettingsTab(ctk.CTkFrame):
  def __init__(self,master,settings,save):
-  super().__init__(master);self.settings=settings;self.save_callback=save;self.vars={};self.region_tables={};self.region_menus={};self.region_vars={};self.region_id_vars={};self._build()
+  super().__init__(master);self.settings=settings;self.save_callback=save;self.vars={};self.region_tables={};self.region_menus={};self.region_vars={};self.region_id_vars={};self.creator_var=ctk.StringVar(value=settings.get("creator",""));self.creator_url_var=ctk.StringVar(value=settings.get("creator_url",""));self._build()
  def _build(self):
   self.tabs=ctk.CTkTabview(self);self.tabs.pack(fill="both",expand=True,padx=12,pady=(12,6))
   for name in ("General","Anno 117","Anno 1800"):self.tabs.add(name)
@@ -15,15 +16,19 @@ class SettingsTab(ctk.CTkFrame):
   for game in SUPPORTED_GAMES:self._build_game(self.tabs.tab(game),game)
   ctk.CTkButton(self,text="Save",command=lambda:self.save_callback(self.values())).pack(anchor="e",padx=18,pady=(0,18))
  def _build_general(self,parent):
-  box=ctk.CTkFrame(parent);box.pack(fill="x",padx=14,pady=14);ctk.CTkLabel(box,text="General Settings",font=ctk.CTkFont(size=18,weight="bold")).pack(anchor="w",padx=16,pady=(16,6));ctk.CTkLabel(box,text="Application-wide settings are placed here.",text_color="#aaaaaa").pack(anchor="w",padx=16,pady=(0,16))
+  box=ctk.CTkFrame(parent);box.pack(fill="x",padx=14,pady=14);box.grid_columnconfigure(1,weight=1);ctk.CTkLabel(box,text="General Settings",font=ctk.CTkFont(size=18,weight="bold")).grid(row=0,column=0,columnspan=2,padx=16,pady=(16,10),sticky="w");ctk.CTkLabel(box,text="Creator").grid(row=1,column=0,padx=(16,10),pady=8,sticky="w");ctk.CTkEntry(box,textvariable=self.creator_var).grid(row=1,column=1,padx=(0,16),pady=8,sticky="ew");ctk.CTkLabel(box,text="Creator URL").grid(row=2,column=0,padx=(16,10),pady=(8,16),sticky="w");ctk.CTkEntry(box,textvariable=self.creator_url_var).grid(row=2,column=1,padx=(0,16),pady=(8,16),sticky="ew")
  def _build_game(self,parent,game):
   validator=(self.register(lambda x:x=="" or x.isdigit()),"%P");self.vars[game]={}
   guid=ctk.CTkFrame(parent);guid.pack(fill="x",padx=14,pady=(14,8));ctk.CTkLabel(guid,text="GUID Range",font=ctk.CTkFont(size=17,weight="bold")).grid(row=0,column=0,columnspan=4,padx=14,pady=12,sticky="w")
   for col,(key,label) in enumerate((("guid_start","GUID Start"),("guid_end","GUID End"))):
    var=ctk.StringVar(value=self.settings["games"][game][key]);self.vars[game][key]=var;ctk.CTkLabel(guid,text=label).grid(row=1,column=col*2,padx=(14,6),pady=10,sticky="w");ctk.CTkEntry(guid,textvariable=var,validate="key",validatecommand=validator).grid(row=1,column=col*2+1,padx=(0,14),pady=10,sticky="ew")
   guid.grid_columnconfigure(1,weight=1);guid.grid_columnconfigure(3,weight=1)
+  export_var=ctk.StringVar(value=self.settings["games"][game].get("default_export_path",""));self.vars[game]["default_export_path"]=export_var;ctk.CTkLabel(guid,text="Default Export Path").grid(row=2,column=0,padx=14,pady=10,sticky="w");ctk.CTkEntry(guid,textvariable=export_var).grid(row=2,column=1,columnspan=2,padx=(0,8),pady=10,sticky="ew");ctk.CTkButton(guid,text="Browse...",width=90,command=lambda g=game:self.select_export_path(g)).grid(row=2,column=3,padx=(0,14),pady=10,sticky="e")
   region=ctk.CTkFrame(parent);region.pack(fill="both",expand=True,padx=14,pady=8);top=ctk.CTkFrame(region,fg_color="transparent");top.pack(fill="x",padx=12,pady=12);ctk.CTkLabel(top,text="Custom Region",font=ctk.CTkFont(size=17,weight="bold")).grid(row=0,column=0,columnspan=5,pady=(0,10),sticky="w");ctk.CTkLabel(top,text="Region:").grid(row=1,column=0,padx=(0,6),sticky="w");region_var=ctk.StringVar();id_var=ctk.StringVar();self.region_vars[game]=region_var;self.region_id_vars[game]=id_var;ctk.CTkEntry(top,textvariable=region_var).grid(row=1,column=1,padx=(0,14),sticky="ew");ctk.CTkLabel(top,text="ID:").grid(row=1,column=2,padx=(0,6),sticky="w");ctk.CTkEntry(top,textvariable=id_var).grid(row=1,column=3,padx=(0,14),sticky="ew");ctk.CTkButton(top,text="Add",width=80,command=lambda g=game:self.add_from_fields(g)).grid(row=1,column=4);top.grid_columnconfigure(1,weight=1);top.grid_columnconfigure(3,weight=1)
   table=SortableTable(region,[("Region","Region",220),("ID","ID",160)]);table.pack(fill="both",expand=True,padx=12,pady=(0,12));self.region_tables[game]=table;self._bind_region_context_menu(game,table);self.reload_custom_regions(game)
+ def select_export_path(self,game):
+  value=filedialog.askdirectory(parent=self,title=f"Select Default Export Path - {game}",initialdir=self.vars[game]["default_export_path"].get() or None)
+  if value:self.vars[game]["default_export_path"].set(value)
  def regions(self,game):return self.settings["games"][game].setdefault("custom_regions",[])
  def reload_custom_regions(self,game):
   regions=sorted(self.regions(game),key=lambda x:x.get("region","").casefold());self.region_tables[game].set_rows([(x.get("region",""),x.get("id","")) for x in regions])
@@ -90,6 +95,7 @@ class SettingsTab(ctk.CTkFrame):
    if item.get("region")==region:item["id"]=new_id.strip();break
   save_custom_regions(game,self.regions(game));self.reload_custom_regions(game)
  def values(self):
+  self.settings["creator"]=self.creator_var.get().strip();self.settings["creator_url"]=self.creator_url_var.get().strip()
   for game in SUPPORTED_GAMES:
-   self.settings["games"][game]["guid_start"]=self.vars[game]["guid_start"].get();self.settings["games"][game]["guid_end"]=self.vars[game]["guid_end"].get()
+   self.settings["games"][game]["guid_start"]=self.vars[game]["guid_start"].get();self.settings["games"][game]["guid_end"]=self.vars[game]["guid_end"].get();self.settings["games"][game]["default_export_path"]=self.vars[game]["default_export_path"].get()
   return self.settings

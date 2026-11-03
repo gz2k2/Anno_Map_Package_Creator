@@ -13,17 +13,19 @@ from app.templates.template_dialog import AppDialog, ConfirmDialog
 
 class ExportMapsAsModTab(ctk.CTkFrame):
  def __init__(self,master,selected_game):
-  super().__init__(master);self.game=ctk.StringVar(value=selected_game);self.map_package=ctk.StringVar();self.mod_name=ctk.StringVar();self.export_folder=ctk.StringVar();self.status=ctk.StringVar(value="Ready");self.messages=Queue();self.worker=None;self._build();self.reload();self.after(75,self._poll)
+  super().__init__(master);self.game=ctk.StringVar(value=selected_game);self.map_package=ctk.StringVar();self.mod_name=ctk.StringVar();self.mod_version=ctk.StringVar();self.export_folder=ctk.StringVar();self.status=ctk.StringVar(value="Ready");self.messages=Queue();self.worker=None;self._build();self._apply_default_export_path();self.reload();self.after(75,self._poll)
  def _build(self):
   content=ctk.CTkFrame(self,fg_color="transparent");content.pack(fill="both",expand=True,padx=18,pady=18);content.grid_columnconfigure(1,weight=1);content.grid_rowconfigure(4,weight=1)
   ctk.CTkLabel(content,text="Map Package").grid(row=0,column=0,padx=(0,12),pady=8,sticky="w");self.package_menu=ctk.CTkOptionMenu(content,values=[""],variable=self.map_package);self.package_menu.grid(row=0,column=1,columnspan=2,pady=8,sticky="ew")
-  ctk.CTkLabel(content,text="Mod Name").grid(row=1,column=0,padx=(0,12),pady=8,sticky="w");ctk.CTkEntry(content,textvariable=self.mod_name).grid(row=1,column=1,columnspan=2,pady=8,sticky="ew")
+  name_row=ctk.CTkFrame(content,fg_color="transparent");name_row.grid(row=1,column=0,columnspan=3,pady=8,sticky="ew");name_row.grid_columnconfigure(1,weight=1);name_row.grid_columnconfigure(3,weight=1);ctk.CTkLabel(name_row,text="Mod Name").grid(row=0,column=0,padx=(0,12),sticky="w");ctk.CTkEntry(name_row,textvariable=self.mod_name).grid(row=0,column=1,padx=(0,18),sticky="ew");ctk.CTkLabel(name_row,text="Version:").grid(row=0,column=2,padx=(0,8),sticky="w");ctk.CTkEntry(name_row,textvariable=self.mod_version,width=140).grid(row=0,column=3,sticky="ew")
   ctk.CTkLabel(content,text="Export Folder").grid(row=2,column=0,padx=(0,12),pady=8,sticky="w");ctk.CTkEntry(content,textvariable=self.export_folder,state="readonly").grid(row=2,column=1,padx=(0,8),pady=8,sticky="ew");ctk.CTkButton(content,text="Browse...",width=100,command=self.select_folder).grid(row=2,column=2,pady=8)
   action=ctk.CTkFrame(content,fg_color="transparent");action.grid(row=3,column=0,columnspan=3,pady=(12,8),sticky="ew");ctk.CTkLabel(action,textvariable=self.status).pack(side="left");self.export_button=ctk.CTkButton(action,text="Export Map Package as Mod",command=self.export);self.export_button.pack(side="right")
   frame=ctk.CTkFrame(content);frame.grid(row=4,column=0,columnspan=3,sticky="nsew");frame.grid_columnconfigure(0,weight=1);frame.grid_rowconfigure(1,weight=1);ctk.CTkLabel(frame,text="Export Log",font=ctk.CTkFont(weight="bold")).grid(row=0,column=0,padx=12,pady=8,sticky="w");self.log=ctk.CTkTextbox(frame,state="disabled",wrap="none");self.log.grid(row=1,column=0,padx=10,pady=(0,10),sticky="nsew")
  def reload(self):
   values=sorted(package_names(self.game.get()),key=str.casefold);current=self.map_package.get();self.package_menu.configure(values=values or [""]);self.map_package.set(current if current in values else (values[0] if values else ""))
- def set_game(self,game):self.game.set(game);self.reload()
+ def set_game(self,game):self.game.set(game);self._apply_default_export_path();self.reload()
+ def _apply_default_export_path(self):
+  settings=load_settings();self.export_folder.set(settings.get("games",{}).get(self.game.get(),{}).get("default_export_path",""))
  def select_folder(self):
   value=filedialog.askdirectory(parent=self,title="Select Export Folder",initialdir=self.export_folder.get() or None)
   if value:self.export_folder.set(value)

@@ -1,5 +1,6 @@
 {
   "schema_version": 1,
   "game": "Anno 117",
-  "maps": []
+  "maps": [],
+  "custom_regions": []
 }
