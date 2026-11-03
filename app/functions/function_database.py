@@ -60,8 +60,8 @@ def load_packages(game):
  raw=read_json(database_path(game),{"map_packages":[]}).get("map_packages",[])
  packages=[];changed=False
  for x in raw:
-  if isinstance(x,str):pkg={"name":x,"region":"","use_different_guid_ranges":False,"guid_start":"","guid_end":"","id":""};changed=True
-  else:pkg={"name":str(x.get("name","")),"region":str(x.get("region","")),"use_different_guid_ranges":bool(x.get("use_different_guid_ranges",False)),"guid_start":str(x.get("guid_start","")),"guid_end":str(x.get("guid_end","")),"id":str(x.get("id","")).lower()}
+  if isinstance(x,str):pkg={"name":x,"mod_name":"","version":"","region":"","use_different_guid_ranges":False,"guid_start":"","guid_end":"","id":""};changed=True
+  else:pkg={"name":str(x.get("name","")),"mod_name":str(x.get("mod_name","")),"version":str(x.get("version","")),"region":str(x.get("region","")),"use_different_guid_ranges":bool(x.get("use_different_guid_ranges",False)),"guid_start":str(x.get("guid_start","")),"guid_end":str(x.get("guid_end","")),"id":str(x.get("id","")).lower()}
   if len(pkg["id"])!=2 or any(c not in PACKAGE_ID_ALPHABET for c in pkg["id"]) or any(p["id"]==pkg["id"] for p in packages):pkg["id"]=next_package_id(packages);changed=True
   packages.append(pkg)
  if changed:save_packages(game,packages)
@@ -74,7 +74,7 @@ def add_package(game,name):
  name=name.strip();packages=load_packages(game)
  if not name:raise ValueError("Map Package name must not be empty.")
  if any(x["name"].casefold()==name.casefold() for x in packages):raise ValueError("This Map Package already exists.")
- packages.append({"name":name,"region":"","use_different_guid_ranges":False,"guid_start":"","guid_end":"","id":next_package_id(packages)});save_packages(game,packages)
+ packages.append({"name":name,"mod_name":"","version":"","region":"","use_different_guid_ranges":False,"guid_start":"","guid_end":"","id":next_package_id(packages)});save_packages(game,packages)
 def rename_package(game,old,new):
  new=new.strip();packages=load_packages(game)
  if not new:raise ValueError("Map Package name must not be empty.")
@@ -90,11 +90,11 @@ def delete_package(game,name):
  for e in entries:
   if e.map_package==name:e.map_package=""
  save_entries(game,entries)
-def update_package_options(game,name,region,use_range,guid_start,guid_end):
+def update_package_options(game,name,mod_name,version,region,use_range,guid_start,guid_end):
  packages=load_packages(game);pkg=next((x for x in packages if x["name"]==name),None)
  if not pkg:raise ValueError("Select a Map Package first.")
  if use_range:validate_guid_range(guid_start,guid_end)
- pkg.update({"region":region.strip(),"use_different_guid_ranges":bool(use_range),"guid_start":guid_start.strip(),"guid_end":guid_end.strip()});save_packages(game,packages)
+ pkg.update({"mod_name":mod_name.strip(),"version":version.strip(),"region":region.strip(),"use_different_guid_ranges":bool(use_range),"guid_start":guid_start.strip(),"guid_end":guid_end.strip()});save_packages(game,packages)
 def package_entries(game,name):return [e for e in load_entries(game) if e.map_package==name]
 def apply_package_to_maps(game,map_files,package,apply_guids=False,apply_region=False):
  pkg=get_package(game,package)

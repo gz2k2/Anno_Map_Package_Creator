@@ -1,0 +1,52 @@
+{
+  "Version": "1.0.0",
+  "Anno": 8,
+  "ModID": "mappackage-modname-creator",
+  "IncompatibleIds": [],
+  "LoadAfterIds": [],
+
+  "Category": {
+    "Chinese": "Map",
+    "English": "Map",
+    "French": "Map",
+    "German": "Map",
+    "Italian": "Map",
+    "Japanese": "Map",
+    "Korean": "Map",
+    "Polish": "Map",
+    "Russian": "Map",
+    "Spanish": "Map",
+    "Taiwanese": "Map"
+  },
+  "ModName": {
+    "Chinese": "",
+    "English": "[MapPackage] ModName [CREATOR]",
+    "French": "",
+    "German": "",
+    "Italian": "",
+    "Japanese": "",
+    "Korean": "",
+    "Polish": "",
+    "Russian": "",
+    "Spanish": "",
+    "Taiwanese": ""
+  },
+  "Description": {
+    "Chinese": null,
+    "English": "[MapPackage] ModName",
+    "French": null,
+    "German": null,
+    "Italian": null,
+    "Japanese": null,
+    "Korean": null,
+    "Polish": null,
+    "Russian": null,
+    "Spanish": null,
+    "Taiwanese": null
+  },
+
+
+  "CreatorName": "CREATOR",
+  "CreatorContact": "CREATOR-URL",
+  "Image": null
+}

@@ -1,0 +1,146 @@
+
+<!-- ModOps template -->
+<ModOps>
+  <!-- START ADDING NEW ISLANDS TO ARCTIC ISLAND POOL -->
+	<ModOp GUID="31778" Type="Append" Path="/">
+<!-- Island 1-->
+		<Asset>
+			<Template>RandomIsland</Template>
+			<Values>
+				<Standard>
+					<GUID>31778</GUID>
+					<Name>roman_medium01</Name>
+				</Standard>
+				<RandomIsland>
+					<FilePath>data/base/provinces/roman/islands/pool/roman_island_medium_01/roman_island_medium_01.a7m</FilePath>
+					<IslandRegion>Roman</IslandRegion>
+					<IslandDifficulty>Normal;Hard</IslandDifficulty>
+					<IslandType>Normal</IslandType>
+					<IslandPlaceholderSize>Medium</IslandPlaceholderSize>
+				</RandomIsland>
+			</Values>
+		</Asset>
+	<!-- Island 2-->
+		<Asset>
+			<Template>RandomIsland</Template>
+			<Values>
+				<Standard>
+					<GUID>31779</GUID>
+					<Name>roman_medium02</Name>
+				</Standard>
+				<RandomIsland>
+					<FilePath>data/base/provinces/roman/islands/pool/roman_island_medium_01/roman_island_medium_02.a7m</FilePath>
+					<IslandRegion>Roman</IslandRegion>
+					<IslandDifficulty>Normal;Hard</IslandDifficulty>
+					<IslandType>Normal</IslandType>
+					<IslandPlaceholderSize>Medium</IslandPlaceholderSize>
+				</RandomIsland>
+			</Values>
+		</Asset>
+
+	</ModOp>
+  <!-- END ADDING NEW ISLANDS TO ARCTIC ISLAND POOL -->
+</ModOps>
+
+
+<!-- decoration Island -->
+<Asset>
+	<Template>RandomIsland</Template>
+	<Values>
+		<Standard>
+			<GUID>42387</GUID>
+			<Name>celtic_deco01</Name>
+		</Standard>
+		<RandomIsland>
+			<FilePath>data/base/provinces/celtic/islands/deco/celtic_island_deco_01/celtic_island_deco_01.a7m</FilePath>
+			<IslandRegion>Celtic</IslandRegion>
+			<IslandDifficulty>Normal;Hard</IslandDifficulty>
+			<IslandType>Decoration</IslandType>
+		</RandomIsland>
+	</Values>
+</Asset>
+<!-- small Island -->
+<Asset>
+	<Template>RandomIsland</Template>
+	<Values>
+		<Standard>
+			<GUID>42384</GUID>
+			<Name>celtic_small01</Name>
+		</Standard>
+		<RandomIsland>
+			<FilePath>data/base/provinces/celtic/islands/pool/celtic_island_small_01/celtic_island_small_01.a7m</FilePath>
+			<IslandRegion>Celtic</IslandRegion>
+			<IslandDifficulty>Normal;Hard</IslandDifficulty>
+			<IslandType>Normal</IslandType>
+		</RandomIsland>
+	</Values>
+</Asset>
+
+<!-- medium island -->
+		<Asset>
+			<Template>RandomIsland</Template>
+			<Values>
+				<Standard>
+					<GUID>31778</GUID>
+					<Name>roman_medium01</Name>
+				</Standard>
+				<RandomIsland>
+					<FilePath>data/base/provinces/roman/islands/pool/roman_island_medium_01/roman_island_medium_01.a7m</FilePath>
+					<IslandRegion>Roman</IslandRegion>
+					<IslandDifficulty>Normal;Hard</IslandDifficulty>
+					<IslandType>Normal</IslandType>
+					<IslandPlaceholderSize>Medium</IslandPlaceholderSize>
+				</RandomIsland>
+			</Values>
+		</Asset>
+<!-- large island -->
+<Asset>
+	<Template>RandomIsland</Template>
+	<Values>
+		<Standard>
+			<GUID>31657</GUID>
+			<Name>roman_large01</Name>
+		</Standard>
+		<RandomIsland>
+			<FilePath>data/base/provinces/roman/islands/pool/roman_island_large_01/roman_island_large_01.a7m</FilePath>
+			<IslandRegion>Roman</IslandRegion>
+			<IslandDifficulty>Normal;Hard</IslandDifficulty>
+			<IslandType>Normal;Starter</IslandType>
+			<IslandPlaceholderSize>Large</IslandPlaceholderSize>
+		</RandomIsland>
+	</Values>
+</Asset>	
+<!-- extra large island -->
+<Asset>
+	<Template>RandomIsland</Template>
+	<Values>
+		<Standard>
+			<GUID>106147</GUID>
+			<Name>roman_extralarge01</Name>
+		</Standard>
+		<RandomIsland>
+			<FilePath>data/base/provinces/roman/islands/pool/roman_island_extralarge_01/roman_island_extralarge_01.a7m</FilePath>
+			<IslandRegion>Roman</IslandRegion>
+			<IslandDifficulty>Normal;Hard</IslandDifficulty>
+			<IslandType>Normal;Starter</IslandType>
+			<IslandPlaceholderSize>XL</IslandPlaceholderSize>
+		</RandomIsland>
+	</Values>
+</Asset>
+<!-- continental island -->
+<Asset>
+	<Template>RandomIsland</Template>
+	<Values>
+		<Standard>
+			<GUID>106147</GUID>
+			<Name>roman_extralarge01</Name>
+		</Standard>
+		<RandomIsland>
+			<FilePath>data/base/provinces/roman/islands/pool/roman_island_extralarge_01/roman_island_extralarge_01.a7m</FilePath>
+			<IslandRegion>Roman</IslandRegion>
+			<IslandDifficulty>Normal;Hard</IslandDifficulty>
+			<IslandType>Normal;Starter</IslandType>
+			<IslandPlaceholderSize>XL</IslandPlaceholderSize>
+		</RandomIsland>
+	</Values>
+</Asset>

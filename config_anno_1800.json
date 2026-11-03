@@ -3,33 +3,19 @@
   "game": "Anno 1800",
   "maps": [
     {
-      "Map_Name": "colony01_l_02_skin",
+      "Map_Name": "colony03_3rdparty09_01_skinned",
       "Region": "Enbesa",
-      "Map_Package": "White and Cold",
+      "Map_Package": "test",
       "GUID": 2000000,
       "Type": "Normal",
-      "Map_File": "C:\\Users\\mf\\Downloads\\00_Maps\\0_original\\white_and_cold\\colony01_l_02_skin\\colony01_l_02_skin.a7m"
-    },
-    {
-      "Map_Name": "colony01_l_03_skin",
-      "Region": "The New World",
-      "Map_Package": "White and Cold",
-      "GUID": 2000001,
-      "Type": "Decoration",
-      "Map_File": "C:\\Users\\mf\\Downloads\\00_Maps\\0_original\\white_and_cold\\colony01_l_03_skin\\colony01_l_03_skin.a7m"
-    },
-    {
-      "Map_Name": "moderate_c_01",
-      "Region": "The Old World",
-      "Map_Package": "",
-      "GUID": 2000012,
-      "Type": "Normal",
-      "Map_File": "C:\\Users\\mf\\Downloads\\00_Maps\\0_original\\Taludas Riverslots OW\\moderate_c_01\\moderate_c_01.a7m"
+      "Map_File": "C:\\temp\\map_tests\\export\\colony03_3rdparty09_01_skinned\\colony03_3rdparty09_01_skinned.a7m"
     }
   ],
   "map_packages": [
     {
-      "name": "White and Cold",
+      "name": "test",
+      "mod_name": "test",
+      "version": "1.0.0",
       "region": "Enbesa",
       "use_different_guid_ranges": false,
       "guid_start": "",

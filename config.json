@@ -1,5 +1,5 @@
 {
-  "selected_game": "Anno 1800",
+  "selected_game": "Anno 117",
   "worker_count": 4,
   "creator": "gz2k2",
   "creator_url": "https://www.github.com/gz2k2",
@@ -7,12 +7,12 @@
     "Anno 117": {
       "guid_start": "1000000",
       "guid_end": "1000999",
-      "default_export_path": ""
+      "default_export_path": "C:/temp/mod_export/anno117"
     },
     "Anno 1800": {
       "guid_start": "2000000",
       "guid_end": "2000999",
-      "default_export_path": ""
+      "default_export_path": "C:/temp/mod_export/anno1800"
     }
   }
 }
