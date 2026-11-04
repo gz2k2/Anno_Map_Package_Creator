@@ -34,21 +34,22 @@ class ExportMapsAsModTab(ctk.CTkFrame):
         """Create the input controls, action row, and read-only autoscrolling log."""
         content = ctk.CTkFrame(self, fg_color="transparent")
         content.pack(fill="both", expand=True, padx=18, pady=18)
-        content.grid_columnconfigure(1, weight=1)
+        content.grid_columnconfigure(1, weight=0)
+        content.grid_columnconfigure(3, weight=1)
         content.grid_rowconfigure(3, weight=1)
         ctk.CTkLabel(content, text="Map Package").grid(row=0, column=0, padx=(0, 12), pady=8, sticky="w")
-        self.package_menu = ctk.CTkOptionMenu(content, values=[""], variable=self.map_package)
-        self.package_menu.grid(row=0, column=1, columnspan=2, pady=8, sticky="ew")
+        self.package_menu = ctk.CTkOptionMenu(content, values=[""], variable=self.map_package, width=220)
+        self.package_menu.grid(row=0, column=1, columnspan=2, pady=8, sticky="w")
         ctk.CTkLabel(content, text="Export Folder").grid(row=1, column=0, padx=(0, 12), pady=8, sticky="w")
-        ctk.CTkEntry(content, textvariable=self.export_folder, state="readonly").grid(row=1, column=1, padx=(0, 8), pady=8, sticky="ew")
+        ctk.CTkEntry(content, textvariable=self.export_folder, state="readonly", width=420).grid(row=1, column=1, padx=(0, 8), pady=8, sticky="w")
         ctk.CTkButton(content, text="Browse...", width=100, command=self.select_folder).grid(row=1, column=2, pady=8)
         action = ctk.CTkFrame(content, fg_color="transparent")
-        action.grid(row=2, column=0, columnspan=3, pady=(12, 8), sticky="ew")
+        action.grid(row=2, column=0, columnspan=4, pady=(12, 8), sticky="ew")
         ctk.CTkLabel(action, textvariable=self.status).pack(side="left")
         self.export_button = ctk.CTkButton(action, text="Export Map Package as Mod", command=self.export)
         self.export_button.pack(side="right")
         frame = ctk.CTkFrame(content)
-        frame.grid(row=3, column=0, columnspan=3, sticky="nsew")
+        frame.grid(row=3, column=0, columnspan=4, sticky="nsew")
         frame.grid_columnconfigure(0, weight=1)
         frame.grid_rowconfigure(1, weight=1)
         ctk.CTkLabel(frame, text="Export Log", font=ctk.CTkFont(weight="bold")).grid(row=0, column=0, padx=12, pady=8, sticky="w")
@@ -114,7 +115,7 @@ class ExportMapsAsModTab(ctk.CTkFrame):
         mod_name = str(package.get("mod_name", "")).strip()
         if not mod_name:
             raise ValueError("Set Mod Name in the Map Packages tab first.")
-        if any(character in mod_name for character in '<>:"/\\|?*'):
+        if any(character in mod_name for character in r'<>:"/\|?*'):
             raise ValueError("Mod Name contains invalid Windows filename characters.")
         export_root = Path(self.export_folder.get().strip())
         if not export_root.is_dir():

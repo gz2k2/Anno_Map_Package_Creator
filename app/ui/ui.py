@@ -73,7 +73,7 @@ class MainWindow(ctk.CTk):
             tabs.add(name)
         self.general = GeneralTab(tabs.tab("General"), self.settings["selected_game"], self.game_changed, self.current_settings)
         self.general.pack(fill="both", expand=True)
-        self.packages_tab = MapPackagesTab(tabs.tab("Map Packages"))
+        self.packages_tab = MapPackagesTab(tabs.tab("Map Packages"), self.settings["selected_game"])
         self.packages_tab.pack(fill="both", expand=True)
         self.export_maps_tab = ExportMapsAsModTab(tabs.tab("Export Maps as Mod"), self.settings["selected_game"])
         self.export_maps_tab.pack(fill="both", expand=True)

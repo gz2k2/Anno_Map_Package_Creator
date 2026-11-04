@@ -9,8 +9,8 @@ from app.config.config_regions import get_fixed_regions
 class GeneralTab(ctk.CTkFrame):
  def __init__(self,master,selected_game,on_game_changed,get_settings):
   super().__init__(master);self.on_data_changed=lambda:self.reload();self.game_var=ctk.StringVar(value=selected_game);self.on_game_changed=on_game_changed;self.get_settings=get_settings
-  filter_bar=ctk.CTkFrame(self,fg_color="transparent");filter_bar.pack(fill="x",padx=18,pady=(0,8));ctk.CTkLabel(filter_bar,text="Filter").pack(side="left",padx=(0,8));self.filter_var=ctk.StringVar(value="All");self.filter_menu=ctk.CTkOptionMenu(filter_bar,values=["All"],variable=self.filter_var,command=lambda _:self.reload());self.filter_menu.pack(side="left")
-  actions=ctk.CTkFrame(self,fg_color="transparent");actions.pack(fill="x",padx=18,pady=(0,10));ctk.CTkButton(actions,text="Add Map ( Folder )",command=self.add_folder).pack(side="left",padx=(0,8));ctk.CTkButton(actions,text="Add Map ( File )",command=self.add_file).pack(side="left")
+  actions=ctk.CTkFrame(self,fg_color="transparent");actions.pack(fill="x",padx=18,pady=(0,8));ctk.CTkButton(actions,text="Add Map ( Folder )",command=self.add_folder).pack(side="left",padx=(0,8));ctk.CTkButton(actions,text="Add Map ( File )",command=self.add_file).pack(side="left")
+  filter_bar=ctk.CTkFrame(self,fg_color="transparent");filter_bar.pack(fill="x",padx=18,pady=(0,10));ctk.CTkLabel(filter_bar,text="Filter").pack(side="left",padx=(0,8));self.filter_var=ctk.StringVar(value="All");self.filter_menu=ctk.CTkOptionMenu(filter_bar,values=["All"],variable=self.filter_var,command=lambda _:self.reload(),width=220);self.filter_menu.pack(side="left")
   cols=[("Map_Name","Map Name",190),("Region","Region",120),("Map_Package","Map Package",180),("GUID","GUID",120),("Type","Type",110),("Map_File","Map File",320)];self.table=SortableTable(self,cols);self.table.pack(fill="both",expand=True,padx=18,pady=(0,18));self._build_context_menu();self.reload()
  def _change(self,g):self.on_game_changed(g);self.reload()
  def reload(self):
