@@ -128,11 +128,6 @@ jobs:
 
             `version.txt` is embedded in the one-file executable.
 
-            The writable runtime JSON files are intentionally not included in the release executable:
-            - `config.json`
-            - `config_anno_117.json`
-            - `config_anno_1800.json`
-
             ### Support
             [Ko-fi](https://ko-fi.com/gz2k2)
         env:
