@@ -1,15 +1,18 @@
 """Main application window, persistent header controls, and primary tab coordination."""
 import customtkinter as ctk
+import threading
 
 from app.config.config_app import GITHUB_URL, KOFI_URL
 from app.config.config_paths import version_path
 from app.functions.function_links import open_external_url
+from app.functions.function_update_check import check_for_update
 from app.functions.function_settings import load_settings, save_settings
 from app.templates.template_dialog import AppDialog
 from app.ui.tabs.ui_tab_export_maps import ExportMapsAsModTab
 from app.ui.tabs.ui_tab_general import GeneralTab
 from app.ui.tabs.ui_tab_packages import MapPackagesTab
 from app.ui.tabs.ui_tab_settings import SettingsTab
+from app.ui.ui_update_status import UpdateStatusWindow
 
 # Change this constant to rename the application without touching window logic.
 APP_TITLE = "Anno Map Package Creator by gz2k2"
@@ -27,6 +30,16 @@ class MainWindow(ctk.CTk):
         self.settings = load_settings()
         self._build_header()
         self._build_tabs()
+        self.after(500, self._start_update_check)
+
+    def _start_update_check(self) -> None:
+        """Start the update check without blocking the CustomTkinter UI thread."""
+        threading.Thread(target=self._update_check_worker, daemon=True).start()
+
+    def _update_check_worker(self) -> None:
+        """Run the network check in the background and show its result on the UI thread."""
+        result = check_for_update()
+        self.after(0, lambda: UpdateStatusWindow(self, result))
 
     def _read_version(self) -> str:
         """Read version.txt for the window title and return a safe fallback when unavailable."""
