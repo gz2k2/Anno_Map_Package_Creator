@@ -39,7 +39,8 @@ class MainWindow(ctk.CTk):
     def _update_check_worker(self) -> None:
         """Run the network check in the background and show its result on the UI thread."""
         result = check_for_update()
-        self.after(0, lambda: UpdateStatusWindow(self, result))
+        if result.state == "update":
+            self.after(0, lambda: UpdateStatusWindow(self, result))
 
     def _read_version(self) -> str:
         """Read version.txt for the window title and return a safe fallback when unavailable."""
