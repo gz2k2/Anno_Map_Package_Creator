@@ -60,8 +60,8 @@ def load_packages(game):
  raw=read_json(database_path(game),{"map_packages":[]}).get("map_packages",[])
  packages=[];changed=False
  for x in raw:
-  if isinstance(x,str):pkg={"name":x,"mod_name":"","version":"","region":"","use_different_guid_ranges":False,"guid_start":"","guid_end":"","id":""};changed=True
-  else:pkg={"name":str(x.get("name","")),"mod_name":str(x.get("mod_name","")),"version":str(x.get("version","")),"region":str(x.get("region","")),"use_different_guid_ranges":bool(x.get("use_different_guid_ranges",False)),"guid_start":str(x.get("guid_start","")),"guid_end":str(x.get("guid_end","")),"id":str(x.get("id","")).lower()}
+  if isinstance(x,str):pkg={"name":x,"mod_name":"","version":"","region":"","use_different_guid_ranges":False,"guid_start":"","guid_end":"","id":"","additional_files":[]};changed=True
+  else:pkg={"name":str(x.get("name","")),"mod_name":str(x.get("mod_name","")),"version":str(x.get("version","")),"region":str(x.get("region","")),"use_different_guid_ranges":bool(x.get("use_different_guid_ranges",False)),"guid_start":str(x.get("guid_start","")),"guid_end":str(x.get("guid_end","")),"id":str(x.get("id","")).lower(),"additional_files":[str(v) for v in x.get("additional_files",[]) if str(v).strip()]}
   if len(pkg["id"])!=2 or any(c not in PACKAGE_ID_ALPHABET for c in pkg["id"]) or any(p["id"]==pkg["id"] for p in packages):pkg["id"]=next_package_id(packages);changed=True
   packages.append(pkg)
  if changed:save_packages(game,packages)
@@ -74,7 +74,13 @@ def add_package(game,name):
  name=name.strip();packages=load_packages(game)
  if not name:raise ValueError("Map Package name must not be empty.")
  if any(x["name"].casefold()==name.casefold() for x in packages):raise ValueError("This Map Package already exists.")
- packages.append({"name":name,"mod_name":"","version":"","region":"","use_different_guid_ranges":False,"guid_start":"","guid_end":"","id":next_package_id(packages)});save_packages(game,packages)
+ packages.append({"name":name,"mod_name":"","version":"","region":"","use_different_guid_ranges":False,"guid_start":"","guid_end":"","id":next_package_id(packages),"additional_files":[]});save_packages(game,packages)
+def update_package_additional_files(game,name,folders):
+ packages=load_packages(game);pkg=next((x for x in packages if x["name"]==name),None)
+ if not pkg:raise ValueError("Select a Map Package first.")
+ pkg["additional_files"]=[str(Path(folder)) for folder in folders]
+ save_packages(game,packages)
+
 def rename_package(game,old,new):
  new=new.strip();packages=load_packages(game)
  if not new:raise ValueError("Map Package name must not be empty.")
