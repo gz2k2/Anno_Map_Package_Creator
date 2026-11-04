@@ -1,22 +1,139 @@
 name: Build and Release
+
 on:
   workflow_dispatch:
   push:
-    tags: ["v*"]
+    branches:
+      - main
+    tags:
+      - "v*"
+
 permissions:
   contents: write
+
 jobs:
-  test-build:
+  build-windows:
+    # Run manually, for v* tags, or when a commit pushed to main starts with v*.
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      startsWith(github.ref, 'refs/tags/v') ||
+      startsWith(github.event.head_commit.message, 'v')
     runs-on: windows-latest
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with: {python-version: "3.12"}
-      - run: pip install -r requirements.txt
-      - run: pytest
-      - run: python 00_build_onefile.py
-      - uses: actions/upload-artifact@v4
-        with: {name: windows-build, path: dist/*}
-      - if: startsWith(github.ref, 'refs/tags/v')
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Dependencies
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+          python -m pip install pyinstaller packaging
+
+      - name: Run Tests
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          python -m pytest
+
+      - name: Read Version and Changelog
+        id: get_version
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+
+          if (-not (Test-Path "version.txt")) {
+              throw "version.txt not found."
+          }
+
+          $raw = (Get-Content "version.txt" -Raw).Trim()
+          if (-not $raw) {
+              throw "version.txt is empty."
+          }
+
+          $version = $raw -replace '^[vV]', ''
+          $tag = "v$version"
+
+          # If the workflow was started by an actual v* tag, require it to
+          # match version.txt so build name and GitHub release cannot diverge.
+          if ($env:GITHUB_REF -like "refs/tags/v*") {
+              $pushedTag = $env:GITHUB_REF.Substring("refs/tags/".Length)
+              if ($pushedTag -ne $tag) {
+                  throw "Tag $pushedTag does not match version.txt ($tag)."
+              }
+          }
+
+          "VERSION=$version" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          "TAG=$tag" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+
+          if (Test-Path "CHANGELOG.md") {
+              $changelog = Get-Content "CHANGELOG.md" -Raw
+          }
+          elseif (Test-Path "changelog.md") {
+              $changelog = Get-Content "changelog.md" -Raw
+          }
+          else {
+              $changelog = ""
+              Write-Host "::warning::CHANGELOG.md not found - release body will use generated notes only."
+          }
+
+          "CHANGELOG<<CHANGELOG_END" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          $changelog | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          "CHANGELOG_END" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+
+          Write-Host "Version: $version  Release tag: $tag"
+
+      - name: Build Onefile EXE
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          python 00_build_onefile.py
+
+          $exePath = "dist\AnnoMapPackageCreator_v${{ steps.get_version.outputs.VERSION }}.exe"
+          if (-not (Test-Path $exePath)) {
+              throw "Expected EXE was not created: $exePath"
+          }
+
+      - name: Upload Windows Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: AnnoMapPackageCreator_v${{ steps.get_version.outputs.VERSION }}
+          path: dist/AnnoMapPackageCreator_v${{ steps.get_version.outputs.VERSION }}.exe
+          if-no-files-found: error
+
+      - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
-        with: {files: dist/*}
+        with:
+          files: dist/AnnoMapPackageCreator_v${{ steps.get_version.outputs.VERSION }}.exe
+          name: Anno Map Package Creator ${{ steps.get_version.outputs.TAG }}
+          tag_name: ${{ steps.get_version.outputs.TAG }}
+          target_commitish: ${{ github.sha }}
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+          body: |
+            Automatic release of Anno Map Package Creator ${{ steps.get_version.outputs.TAG }}.
+
+            ${{ steps.get_version.outputs.CHANGELOG }}
+
+            ### Download
+            Download `AnnoMapPackageCreator_v${{ steps.get_version.outputs.VERSION }}.exe` from the Assets section below.
+
+            `version.txt` is embedded in the one-file executable.
+
+            The writable runtime JSON files are intentionally not included in the release executable:
+            - `config.json`
+            - `config_anno_117.json`
+            - `config_anno_1800.json`
+
+            ### Support
+            [Ko-fi](https://ko-fi.com/gz2k2)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
