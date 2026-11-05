@@ -13,6 +13,8 @@ The application provides a guided workflow for importing maps, assigning regions
 - Supports **Anno 117** and **Anno 1800** from one interface.
 - Imports individual `.a7m` files or recursively scans folders for maps.
 - Assigns and manages GUIDs, regions, map types, and Map Packages.
+- Reassigns GUIDs for unassigned maps from the General range or for package maps from their package-specific range.
+- Provides General-tab context-menu actions for adding maps to and removing maps from packages.
 - Supports `Normal` and `Decoration` island types.
 - Creates reusable Map Packages with Mod Name, Version, Region, and optional package-specific GUID ranges.
 - Supports custom game regions and region IDs.
@@ -204,6 +206,10 @@ Filters the table by Map Package.
 - **All** shows every imported map for the selected game.
 - Selecting a Map Package shows only maps assigned to that package.
 
+## Reassign GUIDs
+
+Reassigns GUIDs for every map that is not assigned to a Map Package. The active game's General **GUID Start / GUID End** range is used. GUIDs used by packaged maps are reserved and skipped. The operation uses an **Apply / Cancel** confirmation and is not saved partially when the range is too small.
+
 ## Table columns
 
 ### Map Name
@@ -260,6 +266,10 @@ Assigns the selected maps to a Map Package.
 If the package has its own GUID range configured, the application asks whether new GUIDs should be assigned from that range.
 
 If the package defines a Region, the application also asks whether that Region should be applied to the selected maps.
+
+### Remove from Package
+
+Removes the selected maps from their current Map Package without deleting the maps from the General database. Multiple selected maps are supported. Maps without a package assignment remain unchanged.
 
 ### Delete
 
@@ -422,6 +432,25 @@ If the target mod already exists, the application asks before replacing it.
 
 The file operation runs in a background worker so the interface remains responsive.
 
+## Region-specific export folder structure
+
+Exported map folders are grouped by the resolved game-facing Region ID below the Map Package ID. The region directory is inserted between `<Package ID>` and `islands`.
+
+```text
+data/<Package ID>/<Region ID>/islands/<Source Map Folder>/...
+```
+
+Examples for Anno 1800 include:
+
+```text
+data/00/moderate/islands/...
+data/00/colony01/islands/...
+data/00/arctic/islands/...
+data/00/africa/islands/...
+```
+
+Anno 117 uses the same structure with its resolved game Region IDs, for example `roman` and `celtic`. The generated `assets.xml` `FilePath` values use the same region-specific path so the XML references match the physical export structure.
+
 ## Export Log
 
 Shows live export progress, including copied map files, generated files, Additional Files, success messages, and errors. The log automatically scrolls to the newest message.
@@ -563,7 +592,7 @@ If an imported `.a7m` or an Additional Files source folder is moved or deleted, 
 
 ## Duplicate map folder names
 
-Two maps in the same exported package cannot come from different source directories with the same folder name. The generated structure uses the source folder name under `data/<Package ID>/islands/`, so such a collision is rejected.
+Two maps in the same exported package cannot come from different source directories with the same folder name. The generated structure uses the source folder name inside the same `data/<Package ID>/<Region ID>/islands/` directory, so such a collision is rejected. Identical source-folder names in different regions use separate region directories.
 
 ## Region IDs matter
 
@@ -954,6 +983,10 @@ Filtert die Tabelle nach Map Package.
 - **All** zeigt alle importierten Karten des ausgewählten Spiels.
 - Ein ausgewähltes Map Package zeigt nur die darin enthaltenen Karten.
 
+## Reassign GUIDs
+
+Vergibt die GUIDs aller Karten neu, die keinem Map Package zugeordnet sind. Verwendet wird der allgemeine **GUID Start / GUID End**-Bereich des aktiven Spiels. GUIDs paketgebundener Karten bleiben reserviert und werden übersprungen. Die Aktion wird mit **Apply / Cancel** bestätigt und bei zu kleinem Bereich nicht teilweise gespeichert.
+
 ## Tabellenspalten
 
 - **Map Name:** Dateiname der `.a7m` ohne Erweiterung
@@ -980,6 +1013,10 @@ Weist den ausgewählten Karten eine eingebaute oder benutzerdefinierte Region zu
 ### Add to Map Package...
 
 Ordnet die ausgewählten Karten einem Map Package zu. Falls das Paket eine eigene Region oder einen eigenen GUID-Bereich besitzt, fragt die Anwendung, ob diese Werte übernommen werden sollen.
+
+### Remove from Package
+
+Entfernt die ausgewählten Karten aus ihrem aktuellen Map Package, ohne sie aus der General-Datenbank zu löschen. Mehrfachauswahl wird unterstützt. Karten ohne Package-Zuweisung bleiben unverändert.
 
 ### Delete
 
@@ -1051,6 +1088,10 @@ Aktiviert einen separaten GUID-Bereich für dieses Map Package.
 
 Definiert den inklusiven paketbezogenen GUID-Bereich. Beim Zuweisen von Karten können daraus neue freie GUIDs vergeben werden.
 
+### Reassign GUIDs
+
+Wird angezeigt, wenn **Use different GUID ranges** aktiviert ist. Nach einer Bestätigung mit **Apply / Cancel** erhalten alle Karten des aktuellen Map Packages neue GUIDs aus dem konfigurierten Package-Bereich. GUIDs außerhalb des Packages werden nicht doppelt vergeben. Ist der Bereich zu klein, erfolgt keine teilweise Neuzuweisung.
+
 ## Paket-Tabelle
 
 Zeigt alle Karten des ausgewählten Pakets mit Map Name, Region, Map Package, GUID, Type und Map File.
@@ -1067,6 +1108,25 @@ Zeigt alle Karten des ausgewählten Pakets mit Map Name, Region, Map Package, GU
 # Tab Export Maps as Mod
 
 Dieser Tab exportiert ein konfiguriertes Map Package als Mod-Ordner.
+
+## Regionsabhängige Export-Ordnerstruktur
+
+Die exportierten Kartenordner werden nach der aufgelösten Spiel-Region-ID gruppiert. Zwischen `<Package ID>` und `islands` wird deshalb zusätzlich das Regionsverzeichnis eingefügt.
+
+```text
+data/<Package ID>/<Region ID>/islands/<Quell-Kartenordner>/...
+```
+
+Beispiele für Anno 1800:
+
+```text
+data/00/moderate/islands/...
+data/00/colony01/islands/...
+data/00/arctic/islands/...
+data/00/africa/islands/...
+```
+
+Anno 117 verwendet dieselbe Struktur mit den aufgelösten Spiel-Region-IDs, zum Beispiel `roman` und `celtic`. Die `FilePath`-Einträge in der erzeugten `assets.xml` verwenden exakt denselben regionsabhängigen Pfad, damit XML-Verweise und tatsächliche Exportstruktur übereinstimmen.
 
 ## Map Package
 
@@ -1211,7 +1271,7 @@ Wird eine `.a7m` oder ein Additional-Files-Ordner verschoben oder gelöscht, kan
 
 ## Doppelte Kartenordnernamen
 
-Zwei unterschiedliche Quellordner mit demselben Ordnernamen können nicht gemeinsam in einem Paket exportiert werden, da beide denselben Zielpfad unter `data/<Package ID>/islands/` erhielten.
+Zwei unterschiedliche Quellordner mit demselben Ordnernamen können nicht gemeinsam in einem Paket exportiert werden, wenn sie innerhalb derselben Region denselben Zielpfad unter `data/<Package ID>/<Region ID>/islands/` erhalten würden. Gleiche Quellordnernamen in unterschiedlichen Regionen liegen dagegen in getrennten Regionsverzeichnissen.
 
 ## Region-IDs
 
@@ -1369,4 +1429,3 @@ Im Projekt ist derzeit keine Lizenzdatei oder ausdrückliche Softwarelizenz defi
 - [ ] Export Folder existiert
 - [ ] Quellordner der Karten sind noch vorhanden
 - [ ] Export-Log enthält keine Fehler
-
