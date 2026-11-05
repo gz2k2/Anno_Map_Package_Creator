@@ -1,1 +1,1 @@
-"""Package marker for the Anno Map Package Creator application."""
+"""Package marker for the Anno Island Package Creator application."""

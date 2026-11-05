@@ -20,7 +20,7 @@
   },
   "ModName": {
     "Chinese": "",
-    "English": "[MapPackage] ModName [CREATOR]",
+    "English": "[IslandPackage] ModName [CREATOR]",
     "French": "",
     "German": "",
     "Italian": "",
@@ -33,7 +33,7 @@
   },
   "Description": {
     "Chinese": null,
-    "English": "[MapPackage] ModName",
+    "English": "[IslandPackage] ModName",
     "French": null,
     "German": null,
     "Italian": null,

@@ -50,7 +50,8 @@ Side effects:
         self._build_general(self.tabs.tab('General'))
         for game in SUPPORTED_GAMES:
             self._build_game(self.tabs.tab(game), game)
-        ctk.CTkButton(self, text='Save', command=lambda: self.save_callback(self.values())).pack(anchor='e', padx=18, pady=(0, 18))
+        self.save_button = ctk.CTkButton(self, text='Save', command=lambda: self.save_callback(self.values()))
+        self.save_button.pack(anchor='e', padx=18, pady=(0, 18))
 
     def _build_general(self, parent):
         """Perform the build general operation for this module responsibility.

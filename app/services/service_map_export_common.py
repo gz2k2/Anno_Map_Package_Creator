@@ -77,11 +77,11 @@ def write_modinfo(request: ExportRequest, anno_value: int | None=None) -> Path:
     mod_name = str(request.package.get('mod_name', '')).strip()
     version = str(request.package.get('version', '')).strip()
     if not version:
-        raise ValueError('Set Version in the Map Packages tab before exporting.')
+        raise ValueError('Set Version in the Island Packages tab before exporting.')
     if not creator:
         raise ValueError('Set Creator in Settings > General before exporting.')
-    display_name = f'[MapPackage] {mod_name} [{creator}]'
-    description = f'[MapPackage] {mod_name}'
+    display_name = f'[IslandPackage] {mod_name} [{creator}]'
+    description = f'[IslandPackage] {mod_name}'
     payload = {'Version': version, 'ModID': '-'.join(filter(None, ('mappackage', slug_component(mod_name), slug_component(creator)))), 'IncompatibleIds': [], 'LoadAfterIds': [], 'Category': {language: 'Map' for language in LANGUAGES}, 'ModName': {language: display_name for language in LANGUAGES}, 'Description': {language: description for language in LANGUAGES}, 'CreatorName': creator, 'CreatorContact': creator_url, 'Image': None}
     if anno_value is not None:
         payload = {'Version': version, 'Anno': anno_value, **{k: v for k, v in payload.items() if k != 'Version'}}

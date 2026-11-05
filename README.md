@@ -2,9 +2,9 @@
 
 ---
 
-# Anno Map Package Creator
+# Anno Island Package Creator
 
-A desktop tool for organizing custom `.a7m` island maps into reusable **Map Packages** and exporting them as ready-to-use mods for **Anno 117** and **Anno 1800**.
+A desktop tool for organizing custom `.a7m` island maps into reusable **Island Packages** and exporting them as ready-to-use mods for **Anno 117** and **Anno 1800**.
 
 The application provides a guided workflow for importing maps, assigning regions and GUIDs, grouping maps into packages, adding extra mod files, and generating the game-specific mod structure and `assets.xml` automatically.
 
@@ -135,7 +135,7 @@ material\
 results in:
 
 ```text
-[MapPackage] Celtic Island Collection\
+[IslandPackage] Celtic Island Collection\
 ├── graphics\
 ├── textures\
 └── configuration.xml
@@ -156,7 +156,7 @@ Open **Export Maps as Mod**.
 The result is created as:
 
 ```text
-<Export Folder>\[MapPackage] <Mod Name>\
+<Export Folder>\[IslandPackage] <Mod Name>\
 ```
 
 The export log displays the files being copied and the generated metadata. If the target mod folder already exists, the application asks before replacing it.
@@ -304,7 +304,7 @@ The visible name used for the exported mod.
 The export folder is named:
 
 ```text
-[MapPackage] <Mod Name>
+[IslandPackage] <Mod Name>
 ```
 
 The Mod Name also becomes part of the generated `modinfo.json` metadata.
@@ -323,7 +323,7 @@ Chooses a source folder whose **contents** should be copied directly into the ro
 
 - **Root Folder**: name of the selected source root.
 - **Source Folder**: complete source path.
-- **Export Example**: example showing where the first discovered item will appear below `[MapPackage] <Mod Name>`.
+- **Export Example**: example showing where the first discovered item will appear below `[IslandPackage] <Mod Name>`.
 
 ### Right-click → Delete
 
@@ -540,7 +540,7 @@ Custom regions can be added for additional or mod-specific region identifiers.
 Map folders are copied to:
 
 ```text
-[MapPackage] <Mod Name>\
+[IslandPackage] <Mod Name>\
 └── data\
     └── <Package ID>\
         └── islands\
@@ -555,7 +555,7 @@ The complete source directory containing each `.a7m` is copied, not only the `.a
 Generated at:
 
 ```text
-[MapPackage] <Mod Name>\data\base\config\export\assets.xml
+[IslandPackage] <Mod Name>\data\base\config\export\assets.xml
 ```
 
 For normal Anno 117 maps, placeholder size is inferred from the map name where possible. Names containing `medium`, `large`, `extralarge`, `extra_large`, or `continental` influence the generated placeholder configuration.
@@ -565,7 +565,7 @@ For normal Anno 117 maps, placeholder size is inferred from the map name where p
 Generated at:
 
 ```text
-[MapPackage] <Mod Name>\data\config\export\main\asset\assets.xml
+[IslandPackage] <Mod Name>\data\config\export\main\asset\assets.xml
 ```
 
 ## modinfo.json
@@ -573,7 +573,7 @@ Generated at:
 Generated in the root of the mod:
 
 ```text
-[MapPackage] <Mod Name>\modinfo.json
+[IslandPackage] <Mod Name>\modinfo.json
 ```
 
 It contains the configured Version, Creator, Creator Contact, generated ModID, Map category, and localized Mod Name/Description entries.
@@ -602,7 +602,7 @@ If a selected Region has no usable mapping, export stops instead of producing an
 
 ## Existing export folders
 
-A new export replaces an existing `[MapPackage] <Mod Name>` folder after confirmation. Do not store unrelated files in that generated folder unless they are represented through Additional Files or otherwise backed up.
+A new export replaces an existing `[IslandPackage] <Mod Name>` folder after confirmation. Do not store unrelated files in that generated folder unless they are represented through Additional Files or otherwise backed up.
 
 ---
 
@@ -918,7 +918,7 @@ material\
 Exportiertes Ergebnis:
 
 ```text
-[MapPackage] Celtic Island Collection\
+[IslandPackage] Celtic Island Collection\
 ├── graphics\
 ├── textures\
 └── configuration.xml
@@ -939,7 +939,7 @@ Die Tabelle zeigt Quell-Root, vollständigen Quellpfad und ein Exportbeispiel. �
 Das Ergebnis wird hier erstellt:
 
 ```text
-<Export Folder>\[MapPackage] <Mod Name>\
+<Export Folder>\[IslandPackage] <Mod Name>\
 ```
 
 Das Export-Log zeigt kopierte Dateien und erzeugte Metadaten. Existiert der Zielordner bereits, fragt die Anwendung vor dem Ersetzen nach.
@@ -1041,7 +1041,7 @@ Wählt das zu bearbeitende Paket aus.
 Sichtbarer Name der exportierten Mod. Der Exportordner wird folgendermaßen benannt:
 
 ```text
-[MapPackage] <Mod Name>
+[IslandPackage] <Mod Name>
 ```
 
 Der Mod Name wird außerdem in die `modinfo.json` übernommen.
@@ -1058,7 +1058,7 @@ Wählt einen Quellordner. Nur dessen Inhalt wird direkt in das Mod-Stammverzeich
 
 - **Root Folder:** Name des ausgewählten Quell-Stammordners
 - **Source Folder:** vollständiger Quellpfad
-- **Export Example:** Beispielpfad des ersten gefundenen Elements unter `[MapPackage] <Mod Name>`
+- **Export Example:** Beispielpfad des ersten gefundenen Elements unter `[IslandPackage] <Mod Name>`
 
 ### Rechtsklick → Delete
 
@@ -1225,7 +1225,7 @@ Die Bedienung entspricht Anno 117, die Werte werden jedoch separat gespeichert.
 ## Kartendateien
 
 ```text
-[MapPackage] <Mod Name>\
+[IslandPackage] <Mod Name>\
 └── data\
     └── <Package ID>\
         └── islands\
@@ -1238,7 +1238,7 @@ Der vollständige Quellordner der `.a7m` wird kopiert. Dadurch bleiben zugehöri
 ## Anno 117 assets.xml
 
 ```text
-[MapPackage] <Mod Name>\data\base\config\export\assets.xml
+[IslandPackage] <Mod Name>\data\base\config\export\assets.xml
 ```
 
 Für normale Karten wird die Platzhaltergröße soweit möglich aus dem Kartennamen erkannt. Begriffe wie `medium`, `large`, `extralarge`, `extra_large` oder `continental` beeinflussen die erzeugte Konfiguration.
@@ -1246,13 +1246,13 @@ Für normale Karten wird die Platzhaltergröße soweit möglich aus dem Kartenna
 ## Anno 1800 assets.xml
 
 ```text
-[MapPackage] <Mod Name>\data\config\export\main\asset\assets.xml
+[IslandPackage] <Mod Name>\data\config\export\main\asset\assets.xml
 ```
 
 ## modinfo.json
 
 ```text
-[MapPackage] <Mod Name>\modinfo.json
+[IslandPackage] <Mod Name>\modinfo.json
 ```
 
 Enthält Version, Creator, Creator Contact, erzeugte ModID, Kategorie sowie lokalisierte Mod-Namen und Beschreibungen.
@@ -1279,7 +1279,7 @@ Anzeigename und Spiel-ID können unterschiedlich sein. Beispielsweise wird Anno 
 
 ## Bestehende Exportordner
 
-Ein vorhandener Ordner `[MapPackage] <Mod Name>` wird nach Bestätigung vollständig ersetzt. Speichere dort keine unabhängigen Dateien, die nicht über Additional Files oder anderweitig gesichert sind.
+Ein vorhandener Ordner `[IslandPackage] <Mod Name>` wird nach Bestätigung vollständig ersetzt. Speichere dort keine unabhängigen Dateien, die nicht über Additional Files oder anderweitig gesichert sind.
 
 ---
 

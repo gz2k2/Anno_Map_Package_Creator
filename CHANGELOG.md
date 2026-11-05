@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.2
+
+### Changed
+- Renamed App to Island Package Creator.
+- Internal Code fixes#
+
+
 ## 1.0.1
 
 ### Added

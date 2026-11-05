@@ -1,4 +1,4 @@
-"""Application startup composition for Anno Map Package Creator. It configures the global CustomTkinter appearance and starts the main window."""
+"""Application startup composition for Anno Island Package Creator. It configures the global CustomTkinter appearance and starts the main window."""
 import customtkinter as ctk
 from app.ui.ui import MainWindow
 

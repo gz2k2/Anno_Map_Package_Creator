@@ -1,4 +1,4 @@
-"""Build Anno Map Package Creator as a versioned one-file executable."""
+"""Build Anno Island Package Creator as a versioned one-file executable."""
 from __future__ import annotations
 import importlib.util
 from pathlib import Path
@@ -6,8 +6,8 @@ import shutil
 import subprocess
 import sys
 ROOT = Path(__file__).resolve().parent
-APP_NAME = 'AnnoMapPackageCreator'
-LAUNCHER = ROOT / 'AnnoMapPackageCreator.py'
+APP_NAME = 'AnnoIslandPackageCreator'
+LAUNCHER = ROOT / 'AnnoIslandPackageCreator.py'
 PACKAGE_ROOT = ROOT / 'app'
 REQUIREMENTS = ROOT / 'requirements.txt'
 VERSION_FILE = ROOT / 'version.txt'

@@ -99,7 +99,7 @@ Side effects:
             except OSError:
                 first = None
             example = first.name if first else '...'
-            rows.append((source.name, folder, f'[MapPackage] {self.mod_name}\\{example}'))
+            rows.append((source.name, folder, f'[IslandPackage] {self.mod_name}\\{example}'))
         self.table.set_rows(rows)
 
     def add_folder(self):

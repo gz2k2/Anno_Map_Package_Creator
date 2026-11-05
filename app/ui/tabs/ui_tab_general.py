@@ -32,8 +32,8 @@ Side effects:
         self.get_settings = get_settings
         actions = ctk.CTkFrame(self, fg_color='transparent')
         actions.pack(fill='x', padx=18, pady=(0, 8))
-        ctk.CTkButton(actions, text='Add Map ( Folder )', command=self.add_folder).pack(side='left', padx=(0, 8))
-        ctk.CTkButton(actions, text='Add Map ( File )', command=self.add_file).pack(side='left')
+        ctk.CTkButton(actions, text='Add Islands ( Folder )', command=self.add_folder).pack(side='left', padx=(0, 8))
+        ctk.CTkButton(actions, text='Add Islands ( File )', command=self.add_file).pack(side='left')
         filter_bar = ctk.CTkFrame(self, fg_color='transparent')
         filter_bar.pack(fill='x', padx=18, pady=(0, 10))
         ctk.CTkLabel(filter_bar, text='Filter').pack(side='left', padx=(0, 8))
@@ -41,7 +41,7 @@ Side effects:
         self.filter_menu = ctk.CTkOptionMenu(filter_bar, values=['All'], variable=self.filter_var, command=lambda _: self.reload(), width=220)
         self.filter_menu.pack(side='left')
         ctk.CTkButton(filter_bar, text='Reassign GUIDs', command=self.confirm_reassign_guids).pack(side='right')
-        cols = [('Map_Name', 'Map Name', 190), ('Region', 'Region', 120), ('Map_Package', 'Map Package', 180), ('GUID', 'GUID', 120), ('Type', 'Type', 110), ('Map_File', 'Map File', 320)]
+        cols = [('Map_Name', 'Island Name', 190), ('Region', 'Region', 120), ('Map_Package', 'Island Package', 180), ('GUID', 'GUID', 120), ('Type', 'Type', 110), ('Map_File', 'Map File', 320)]
         self.table = SortableTable(self, cols)
         self.table.pack(fill='both', expand=True, padx=18, pady=(0, 18))
         self._build_context_menu()
@@ -199,7 +199,7 @@ Side effects:
         self.context_menu.add_command(label='Change GUID', command=self.change_guid_selection)
         self.context_menu.add_command(label='Change Type', command=self.change_type_selection)
         self.context_menu.add_separator()
-        self.context_menu.add_command(label='Add to Map Package...', command=self.add_to_package)
+        self.context_menu.add_command(label='Add to Island Package...', command=self.add_to_package)
         self.context_menu.add_command(label='Remove from Package', command=self.remove_from_package_selection)
         self.context_menu.add_separator()
         self.context_menu.add_command(label='Delete', command=self.delete_selection)
@@ -291,7 +291,7 @@ Side effects:
         if not paths:
             return
         if not packages:
-            AppDialog(self, 'No Map Packages', 'Create a Map Package in the Map Packages tab first.')
+            AppDialog(self, 'No Island Packages', 'Create an Island Package in the Island Packages tab first.')
             return
         PackageSelectionDialog(self, packages, lambda package: self._package_assignment_options(paths, package))
 

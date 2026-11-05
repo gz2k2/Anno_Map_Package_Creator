@@ -1,4 +1,4 @@
-"""Map Packages tab presentation. It owns package selection and editing interactions, package-map table wiring, and dialog launching while delegating data mutations to feature functions."""
+"""Island Packages tab presentation. It owns package selection and editing interactions, package-map table wiring, and dialog launching while delegating data mutations to feature functions."""
 import customtkinter as ctk
 from app.config.config_app import SUPPORTED_GAMES
 from app.config.config_regions import get_fixed_regions
@@ -45,7 +45,7 @@ Side effects:
     May update application state, persistent data, filesystem content, or UI state as implied by the owning module."""
         top = ctk.CTkFrame(self, fg_color='transparent')
         top.pack(fill='x', padx=18, pady=(18, 8))
-        ctk.CTkLabel(top, text='Map Package').pack(side='left', padx=(20, 8))
+        ctk.CTkLabel(top, text='Island Package').pack(side='left', padx=(20, 8))
         self.menu = ctk.CTkOptionMenu(top, values=[''], variable=self.package, command=lambda _: self.load_selected())
         self.menu.pack(side='left')
         self.menu.configure(width=220)
@@ -80,7 +80,7 @@ Side effects:
         ctk.CTkButton(opts, text='Save Package Settings', command=self.save_options).grid(row=2, column=2, padx=(14, 18), pady=10, sticky='e')
         opts.grid_columnconfigure(1, weight=0)
         opts.grid_columnconfigure(2, weight=1)
-        cols = [('Map_Name', 'Map Name', 180), ('Region', 'Region', 120), ('Map_Package', 'Map Package', 170), ('GUID', 'GUID', 110), ('Type', 'Type', 110), ('Map_File', 'Map File', 300)]
+        cols = [('Map_Name', 'Island Name', 180), ('Region', 'Region', 120), ('Map_Package', 'Island Package', 170), ('GUID', 'GUID', 110), ('Type', 'Type', 110), ('Map_File', 'Map File', 300)]
         self.table = SortableTable(self, cols)
         self.table.pack(fill='both', expand=True, padx=18, pady=(4, 18))
         self._build_context_menu()

@@ -52,7 +52,11 @@ Returns:
 Side effects:
     May update application state, persistent data, filesystem content, or UI state as implied by the owning module."""
     for g in SUPPORTED_GAMES:
-        validate_guid_range(s['games'][g]['guid_start'], s['games'][g]['guid_end'])
+        start = s['games'][g]['guid_start']
+        end = s['games'][g]['guid_end']
+        if start or end:
+            validate_guid_range(start, end)
+    for g in SUPPORTED_GAMES:
         db = read_json(database_path(g), {})
         db['custom_regions'] = s['games'][g].get('custom_regions', [])
         write_json_atomic(database_path(g), db)

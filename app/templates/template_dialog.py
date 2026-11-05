@@ -175,14 +175,14 @@ Returns:
 Side effects:
     May update application state, persistent data, filesystem content, or UI state as implied by the owning module."""
         super().__init__(master)
-        self.title('Add to Map Package')
+        self.title('Add to Island Package')
         self.geometry('480x220')
         self.transient(master)
         self.grab_set()
         packages = sorted(packages, key=str.casefold)
         self.var = ctk.StringVar(value=packages[0])
-        ctk.CTkLabel(self, text='Add to Map Package', font=ctk.CTkFont(size=20, weight='bold')).pack(padx=24, pady=(24, 10), anchor='w')
-        ctk.CTkLabel(self, text='Map Package').pack(padx=24, anchor='w')
+        ctk.CTkLabel(self, text='Add to Island Package', font=ctk.CTkFont(size=20, weight='bold')).pack(padx=24, pady=(24, 10), anchor='w')
+        ctk.CTkLabel(self, text='Island Package').pack(padx=24, anchor='w')
         ctk.CTkOptionMenu(self, values=packages, variable=self.var).pack(fill='x', padx=24, pady=8)
         ctk.CTkButton(self, text='Apply', command=lambda: _close_then(self, lambda: callback(self.var.get()))).pack(padx=24, pady=20, anchor='e')
 

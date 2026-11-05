@@ -96,7 +96,7 @@ jobs:
           $ErrorActionPreference = "Stop"
           python 00_build_onefile.py
 
-          $exePath = "dist\AnnoMapPackageCreator_v${{ steps.get_version.outputs.VERSION }}.exe"
+          $exePath = "dist\AnnoIslandPackageCreator_v${{ steps.get_version.outputs.VERSION }}.exe"
           if (-not (Test-Path $exePath)) {
               throw "Expected EXE was not created: $exePath"
           }
@@ -104,29 +104,27 @@ jobs:
       - name: Upload Windows Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: AnnoMapPackageCreator_v${{ steps.get_version.outputs.VERSION }}
-          path: dist/AnnoMapPackageCreator_v${{ steps.get_version.outputs.VERSION }}.exe
+          name: AnnoIslandPackageCreator_v${{ steps.get_version.outputs.VERSION }}
+          path: dist/AnnoIslandPackageCreator_v${{ steps.get_version.outputs.VERSION }}.exe
           if-no-files-found: error
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: dist/AnnoMapPackageCreator_v${{ steps.get_version.outputs.VERSION }}.exe
-          name: Anno Map Package Creator ${{ steps.get_version.outputs.TAG }}
+          files: dist/AnnoIslandPackageCreator_v${{ steps.get_version.outputs.VERSION }}.exe
+          name: Anno Island Package Creator ${{ steps.get_version.outputs.TAG }}
           tag_name: ${{ steps.get_version.outputs.TAG }}
           target_commitish: ${{ github.sha }}
           draft: false
           prerelease: false
           generate_release_notes: true
           body: |
-            Automatic release of Anno Map Package Creator ${{ steps.get_version.outputs.TAG }}.
+            Automatic release of Anno Island Package Creator ${{ steps.get_version.outputs.TAG }}.
 
             ${{ steps.get_version.outputs.CHANGELOG }}
 
             ### Download
-            Download `AnnoMapPackageCreator_v${{ steps.get_version.outputs.VERSION }}.exe` from the Assets section below.
-
-            `version.txt` is embedded in the one-file executable.
+            Download `AnnoIslandPackageCreator_v${{ steps.get_version.outputs.VERSION }}.exe` from the Assets section below.
 
             ### Support
             [Ko-fi](https://ko-fi.com/gz2k2)

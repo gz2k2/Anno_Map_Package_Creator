@@ -1,7 +1,8 @@
 """Main application window, persistent header controls, and primary tab coordination."""
 import customtkinter as ctk
+from queue import Empty, Queue
 import threading
-from app.config.config_app import GITHUB_URL, KOFI_URL
+from app.config.config_app import APP_NAME, GITHUB_URL, KOFI_URL
 from app.config.config_paths import version_path
 from app.functions.function_links import open_external_url
 from app.functions.function_update_check import check_for_update
@@ -12,7 +13,7 @@ from app.ui.tabs.ui_tab_general import GeneralTab
 from app.ui.tabs.ui_tab_packages import MapPackagesTab
 from app.ui.tabs.ui_tab_settings import SettingsTab
 from app.ui.ui_update_status import UpdateStatusWindow
-APP_TITLE = 'Anno Map Package Creator by gz2k2'
+APP_TITLE = f'{APP_NAME} by gz2k2'
 
 class MainWindow(ctk.CTk):
     """Own the persistent header, game selector, tabs, and application-wide refresh wiring."""
@@ -24,8 +25,11 @@ class MainWindow(ctk.CTk):
         self.title(f'{APP_TITLE} v{version}')
         self.geometry('1120x700')
         self.settings = load_settings()
+        self._settings_save_queue = Queue()
+        self._settings_save_active = False
         self._build_header()
         self._build_tabs()
+        self.after(75, self._poll_settings_save)
         self.after(500, self._start_update_check)
 
     def _start_update_check(self) -> None:
@@ -61,13 +65,13 @@ class MainWindow(ctk.CTk):
         """Create the primary tabs and connect cross-tab refresh callbacks."""
         tabs = ctk.CTkTabview(self)
         tabs.pack(fill='both', expand=True, padx=14, pady=(6, 14))
-        for name in ('General', 'Map Packages', 'Export Maps as Mod', 'Settings'):
+        for name in ('General', 'Island Packages', 'Export Island Package as Mod', 'Settings'):
             tabs.add(name)
         self.general = GeneralTab(tabs.tab('General'), self.settings['selected_game'], self.game_changed, self.current_settings)
         self.general.pack(fill='both', expand=True)
-        self.packages_tab = MapPackagesTab(tabs.tab('Map Packages'), self.settings['selected_game'])
+        self.packages_tab = MapPackagesTab(tabs.tab('Island Packages'), self.settings['selected_game'])
         self.packages_tab.pack(fill='both', expand=True)
-        self.export_maps_tab = ExportMapsAsModTab(tabs.tab('Export Maps as Mod'), self.settings['selected_game'])
+        self.export_maps_tab = ExportMapsAsModTab(tabs.tab('Export Island Package as Mod'), self.settings['selected_game'])
         self.export_maps_tab.pack(fill='both', expand=True)
         self.general.on_data_changed = self.refresh_all_tables
         self.packages_tab.on_data_changed = self.refresh_all_tables
@@ -75,9 +79,10 @@ class MainWindow(ctk.CTk):
         self.settings_tab.pack(fill='both', expand=True)
 
     def refresh_all_tables(self) -> None:
-        """Reload all data-backed tables after a database mutation."""
+        """Reload all data-backed views after a database mutation."""
         self.general.reload()
         self.packages_tab.load_selected()
+        self.export_maps_tab.reload()
 
     def game_changed(self, game: str) -> None:
         """Apply the global game selection to all game-dependent working tabs."""
@@ -96,11 +101,34 @@ class MainWindow(ctk.CTk):
         return self.settings_tab.values() if hasattr(self, 'settings_tab') else self.settings
 
     def save(self, settings: dict) -> None:
-        """Persist validated settings and report the result in the shared styled dialog."""
+        """Save validated settings on a worker so filesystem delays cannot block the UI."""
+        if self._settings_save_active:
+            return
+        self._settings_save_active = True
+        self.settings_tab.save_button.configure(state='disabled')
+        threading.Thread(target=self._save_settings_worker, args=(settings,), daemon=True).start()
+
+    def _save_settings_worker(self, settings: dict) -> None:
+        """Persist settings and send the outcome to the UI thread."""
         try:
             save_settings(settings)
-            self.settings = settings
-            self.settings_tab.settings = settings
-            AppDialog(self, 'Settings Saved', 'Settings were saved successfully.')
-        except (ValueError, OSError) as error:
-            AppDialog(self, 'Invalid Settings', str(error))
+            self._settings_save_queue.put((True, settings))
+        except Exception as error:
+            self._settings_save_queue.put((False, str(error)))
+
+    def _poll_settings_save(self) -> None:
+        """Apply settings-save results on the UI thread and keep polling for completion."""
+        try:
+            succeeded, result = self._settings_save_queue.get_nowait()
+        except Empty:
+            pass
+        else:
+            self._settings_save_active = False
+            self.settings_tab.save_button.configure(state='normal')
+            if succeeded:
+                self.settings = result
+                self.settings_tab.settings = result
+                AppDialog(self, 'Settings Saved', 'Settings were saved successfully.')
+            else:
+                AppDialog(self, 'Settings Save Failed', result)
+        self.after(75, self._poll_settings_save)

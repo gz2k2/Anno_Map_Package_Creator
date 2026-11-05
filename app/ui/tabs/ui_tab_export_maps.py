@@ -34,7 +34,7 @@ class ExportMapsAsModTab(ctk.CTkFrame):
         content.grid_columnconfigure(1, weight=0)
         content.grid_columnconfigure(3, weight=1)
         content.grid_rowconfigure(3, weight=1)
-        ctk.CTkLabel(content, text='Map Package').grid(row=0, column=0, padx=(0, 12), pady=8, sticky='w')
+        ctk.CTkLabel(content, text='Island Package').grid(row=0, column=0, padx=(0, 12), pady=8, sticky='w')
         self.package_menu = ctk.CTkOptionMenu(content, values=[''], variable=self.map_package, width=220)
         self.package_menu.grid(row=0, column=1, columnspan=2, pady=8, sticky='w')
         ctk.CTkLabel(content, text='Export Folder').grid(row=1, column=0, padx=(0, 12), pady=8, sticky='w')
@@ -43,7 +43,7 @@ class ExportMapsAsModTab(ctk.CTkFrame):
         action = ctk.CTkFrame(content, fg_color='transparent')
         action.grid(row=2, column=0, columnspan=4, pady=(12, 8), sticky='ew')
         ctk.CTkLabel(action, textvariable=self.status).pack(side='left')
-        self.export_button = ctk.CTkButton(action, text='Export Map Package as Mod', command=self.export)
+        self.export_button = ctk.CTkButton(action, text='Export Island Package as Mod', command=self.export)
         self.export_button.pack(side='right')
         frame = ctk.CTkFrame(content)
         frame.grid(row=3, column=0, columnspan=4, sticky='nsew')
@@ -102,7 +102,7 @@ class ExportMapsAsModTab(ctk.CTkFrame):
             raise ValueError('The selected Map Package no longer exists.')
         mod_name = str(package.get('mod_name', '')).strip()
         if not mod_name:
-            raise ValueError('Set Mod Name in the Map Packages tab first.')
+            raise ValueError('Set Mod Name in the Island Packages tab first.')
         if any((character in mod_name for character in '<>:"/\\|?*')):
             raise ValueError('Mod Name contains invalid Windows filename characters.')
         export_root = Path(self.export_folder.get().strip())
@@ -114,7 +114,7 @@ class ExportMapsAsModTab(ctk.CTkFrame):
         package_id = str(package.get('id', '')).strip()
         if not package_id:
             raise ValueError('The selected Map Package has no internal ID.')
-        return ExportRequest(game=self.game.get(), target=export_root / f'[MapPackage] {mod_name}', package_id=package_id, package=dict(package), entries=entries, settings=load_settings())
+        return ExportRequest(game=self.game.get(), target=export_root / f'[IslandPackage] {mod_name}', package_id=package_id, package=dict(package), entries=entries, settings=load_settings())
 
     def _start_worker(self, request: ExportRequest) -> None:
         """Start the blocking export service on a daemon worker thread."""
