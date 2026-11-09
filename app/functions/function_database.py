@@ -560,8 +560,8 @@ Returns:
 
 Side effects:
     May update application state, persistent data, filesystem content, or UI state as implied by the owning module."""
-    if new_type not in ('Normal', 'Decoration'):
-        raise ValueError('Type must be Normal or Decoration.')
+    if new_type not in ('Normal', 'Decoration', 'Starter'):
+        raise ValueError('Type must be Normal, Decoration, or Starter.')
     entries = load_entries(game)
     wanted = {str(Path(x).resolve()).casefold() for x in map_files}
     changed = 0

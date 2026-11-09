@@ -51,7 +51,7 @@ def write_assets_xml(request: ExportRequest) -> Path:
             ET.SubElement(island, 'IslandType').text = 'Decoration'
         else:
             size = island_placeholder_size(entry.map_name)
-            ET.SubElement(island, 'IslandType').text = 'Normal;Starter' if size in ('Large', 'XL') else 'Normal'
+            ET.SubElement(island, 'IslandType').text = 'Normal;Starter' if entry.map_type == 'Starter' else 'Normal'
             if size:
                 ET.SubElement(island, 'IslandPlaceholderSize').text = size
     tree = ET.ElementTree(root)

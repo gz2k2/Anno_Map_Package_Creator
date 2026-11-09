@@ -40,7 +40,7 @@ def write_assets_xml(request: ExportRequest) -> Path:
         if entry.map_type == 'Decoration':
             ET.SubElement(island, 'IslandType').text = 'Decoration'
         else:
-            ET.SubElement(island, 'IslandType').text = 'Normal;Starter'
+            ET.SubElement(island, 'IslandType').text = 'Normal;Starter' if entry.map_type == 'Starter' else 'Normal'
             ET.SubElement(island, 'IslandBaseName').text = entry.map_name
     root.append(ET.Comment(' END ADDING NEW ISLANDS TO ISLAND POOL '))
     tree = ET.ElementTree(root)
