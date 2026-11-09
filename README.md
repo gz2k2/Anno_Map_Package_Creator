@@ -4,32 +4,32 @@
 
 # Anno Island Package Creator
 
-A desktop tool for organizing custom `.a7m` island maps into reusable **Island Packages** and exporting them as ready-to-use mods for **Anno 117** and **Anno 1800**.
+A desktop tool for organizing custom `.a7m` island Islands into reusable **Island Packages** and exporting them as ready-to-use mods for **Anno 117** and **Anno 1800**.
 
-The application provides a guided workflow for importing maps, assigning regions and GUIDs, grouping maps into packages, adding extra mod files, and generating the game-specific mod structure and `assets.xml` automatically.
+The application provides a guided workflow for importing Islands, assigning regions and GUIDs, grouping Islands into packages, adding extra mod files, and generating the game-specific mod structure and `assets.xml` automatically.
 
 ## Features
 
 - Supports **Anno 117** and **Anno 1800** from one interface.
-- Imports individual `.a7m` files or recursively scans folders for maps.
-- Assigns and manages GUIDs, regions, map types, and Map Packages.
-- Reassigns GUIDs for unassigned maps from the General range or for package maps from their package-specific range.
-- Provides General-tab context-menu actions for adding maps to and removing maps from packages.
+- Imports individual `.a7m` files or recursively scans folders for Islands.
+- Assigns and manages GUIDs, regions, Island types, and Island Packages.
+- Reassigns GUIDs for unassigned Islands from the General range or for package Islands from their package-specific range.
+- Provides General-tab context-menu actions for adding Islands to and removing Islands from packages.
 - Supports `Normal` and `Decoration` island types.
-- Creates reusable Map Packages with Mod Name, Version, Region, and optional package-specific GUID ranges.
+- Creates reusable Island Packages with Mod Name, Version, Region, and optional package-specific GUID ranges.
 - Supports custom game regions and region IDs.
 - Supports **Additional Files** that are copied into the root of the exported mod.
 - Generates the required game-specific `assets.xml` and `modinfo.json`.
-- Exports map source folders, including their related files and subfolders.
+- Exports Island source folders, including their related files and subfolders.
 - Performs exports in a background worker and shows a live autoscrolling export log.
-- Includes separate default export paths for Anno 117 and Anno 1800.
+- Includes separate Anno Mod Folders for Anno 117 and Anno 1800.
 - Dark-mode CustomTkinter interface with sortable tables.
 
 ---
 
-# Quick Workflow: Create a Map Package
+# Quick Workflow: Create an Island Package
 
-This is the recommended workflow for creating a mod from one or more maps.
+This is the recommended workflow for creating a mod from one or more Islands.
 
 ## 1. Select the game
 
@@ -38,7 +38,7 @@ At the top of the application, select either:
 - **Anno 117**
 - **Anno 1800**
 
-The selection controls which map database, regions, packages, settings, and export format are used.
+The selection controls which Island database, regions, packages, settings, and export format are used.
 
 ## 2. Configure Settings first
 
@@ -46,17 +46,17 @@ Open **Settings** and configure at least:
 
 1. **Creator**
 2. **GUID Start** and **GUID End** for the selected game
-3. **Default Export Path**, if desired
+3. **Anno Mod Folder**, if desired
 
-If your maps use a region that is not included by default, add it under **Custom Region** with the correct game region ID.
+If your Islands use a region that is not included by default, add it under **Custom Region** with the correct game region ID.
 
 Click **Save**.
 
-> The Creator is required for mod export. A valid GUID range is required before importing maps.
+> The Creator is required for mod export. A valid GUID range is required before importing Islands.
 
-## 3. Create a Map Package
+## 3. Create an Island Package
 
-Open **Map Packages** and click **New**.
+Open **Island Packages** and click **New**.
 
 Enter an internal package name, for example:
 
@@ -73,36 +73,36 @@ Then configure:
 
 Click **Save Package Settings**.
 
-## 4. Import maps
+## 4. Import Islands
 
 Open **General**.
 
 Use either:
 
-- **Add Map ( File )** for one `.a7m` file
-- **Add Map ( Folder )** to recursively find all `.a7m` files below a selected folder
+- **Add Island ( File )** for one `.a7m` file
+- **Add Island ( Folder )** to recursively find all `.a7m` files below a selected folder
 
-New maps receive the next free GUID from the configured game GUID range.
+New Islands receive the next free GUID from the configured game GUID range.
 
-## 5. Configure the maps
+## 5. Configure Islands
 
-Select one or more maps in the General table and right-click.
+Select one or more Islands in the General table and right-click.
 
 Use the context menu to:
 
 - set the **Region**;
 - change the **GUID**;
 - change the **Type** between `Normal` and `Decoration`;
-- add the maps to a **Map Package**;
-- delete maps from the application database.
+- add the Islands to an **Island Package**;
+- delete Islands from the application database.
 
-When adding maps to a package, the application can optionally apply the package Region and package-specific GUID range.
+When adding Islands to a package, the application can optionally apply the package Region and package-specific GUID range.
 
-## 6. Review the Map Package
+## 6. Review the Island Package
 
-Open **Map Packages** and select the package.
+Open **Island Packages** and select the package.
 
-The table shows all maps assigned to it. Verify that each map has the intended:
+The table shows all Islands assigned to it. Verify that each Island has the intended:
 
 - Region
 - GUID
@@ -113,14 +113,14 @@ Use the right-click menu if something needs to be changed.
 
 ## 7. Add optional additional mod files
 
-If the mod requires files in addition to the map folders, click **Additional Files**.
+If the mod requires files in addition to the Island folders, click **Additional Files**.
 
 Click **Add Files** and select a folder. The selected folder itself acts only as the source root. Its **contents** are copied directly into the generated mod root.
 
 For example, selecting:
 
 ```text
-C:\map_files\xxx\yyy\material\
+C:\Island_files\xxx\yyy\material\
 ```
 
 with:
@@ -143,15 +143,15 @@ results in:
 
 The `material` folder itself is **not** created in the mod.
 
-The Additional Files table shows the source root, source folder, and an export example. Right-click an entry and choose **Delete** to remove it from the package. Click **Save** to store the list for the currently selected Map Package.
+The Additional Files table shows the source root, source folder, and an export example. Right-click an entry and choose **Delete** to remove it from the package. Click **Save** to store the list for the currently selected Island Package.
 
 ## 8. Export the mod
 
-Open **Export Maps as Mod**.
+Open **Export Island Package as Mod**.
 
-1. Select the **Map Package**.
+1. Select the **Island Package**.
 2. Verify or select the **Export Folder**.
-3. Click **Export Map Package as Mod**.
+3. Click **Export Island Package as Mod**.
 
 The result is created as:
 
@@ -171,7 +171,7 @@ The export log displays the files being copied and the generated metadata. If th
 
 Switches the complete working context between **Anno 117** and **Anno 1800**.
 
-Changing the game updates the General map database, Map Packages, export package list, and game-specific export path.
+Changing the game updates the General Island database, Island Packages, export package list, and game-specific export path.
 
 ### GitHub
 
@@ -185,50 +185,50 @@ Opens the configured Ko-fi page in the default web browser.
 
 # General Tab
 
-The **General** tab is the main map database for the currently selected game.
+The **General** tab is the main Island database for the currently selected game.
 
-## Add Map ( Folder )
+## Add Island ( Folder )
 
 Opens a folder picker and recursively scans the selected directory for `.a7m` files.
 
-Each discovered map is imported separately.
+Each discovered Island is imported separately.
 
-## Add Map ( File )
+## Add Island ( File )
 
-Imports one `.a7m` map file.
+Imports one `.a7m` Island file.
 
 If the same source path already exists in the database, the application asks whether the existing entry should be updated or kept unchanged.
 
 ## Filter
 
-Filters the table by Map Package.
+Filters the table by Island Package.
 
-- **All** shows every imported map for the selected game.
-- Selecting a Map Package shows only maps assigned to that package.
+- **All** shows every imported Island for the selected game.
+- Selecting an Island Package shows only Islands assigned to that package.
 
 ## Reassign GUIDs
 
-Reassigns GUIDs for every map that is not assigned to a Map Package. The active game's General **GUID Start / GUID End** range is used. GUIDs used by packaged maps are reserved and skipped. The operation uses an **Apply / Cancel** confirmation and is not saved partially when the range is too small.
+Reassigns GUIDs for every Island that is not assigned to an Island Package. The active game's General **GUID Start / GUID End** range is used. GUIDs used by packaged Islands are reserved and skipped. The operation uses an **Apply / Cancel** confirmation and is not saved partially when the range is too small.
 
 ## Table columns
 
-### Map Name
+### Island Name
 
-The filename of the imported `.a7m` map without the extension.
+The filename of the imported `.a7m` Island without the extension.
 
 ### Region
 
-The display region assigned to the map. During export it is translated to the corresponding game-specific region ID.
+The display region assigned to the Island. During export it is translated to the corresponding game-specific region ID.
 
-### Map Package
+### Island Package
 
-The package currently containing the map. An empty value means that the map has not yet been assigned to a package.
+The package currently containing the Island. An empty value means that the Island has not yet been assigned to a package.
 
 ### GUID
 
 The unique numerical GUID used for the exported RandomIsland asset.
 
-When a new map is imported, the application selects the next free GUID from the configured GUID range.
+When a new Island is imported, the application selects the next free GUID from the configured GUID range.
 
 ### Type
 
@@ -239,63 +239,63 @@ Supported values:
 
 The selected type changes the generated island asset configuration.
 
-### Map File
+### Island File
 
 Absolute path to the imported `.a7m` source file.
 
 ## General table context menu
 
-Right-click one or more maps.
+Right-click one or more Islands.
 
 ### Set Region
 
-Assigns a built-in or custom region to the selected map or maps.
+Assigns a built-in or custom region to the selected Island or Islands.
 
 ### Change GUID
 
-Changes the GUID of exactly one selected map. Duplicate GUIDs are rejected.
+Changes the GUID of exactly one selected Island. Duplicate GUIDs are rejected.
 
 ### Change Type
 
-Sets the selected maps to `Normal` or `Decoration`.
+Sets the selected Islands to `Normal` or `Decoration`.
 
-### Add to Map Package...
+### Add to Island Package...
 
-Assigns the selected maps to a Map Package.
+Assigns the selected Islands to an Island Package.
 
 If the package has its own GUID range configured, the application asks whether new GUIDs should be assigned from that range.
 
-If the package defines a Region, the application also asks whether that Region should be applied to the selected maps.
+If the package defines a Region, the application also asks whether that Region should be applied to the selected Islands.
 
 ### Remove from Package
 
-Removes the selected maps from their current Map Package without deleting the maps from the General database. Multiple selected maps are supported. Maps without a package assignment remain unchanged.
+Removes the selected Islands from their current Island Package without deleting the Islands from the General database. Multiple selected Islands are supported. Islands without a package assignment remain unchanged.
 
 ### Delete
 
-Deletes the selected entries from the application's map database. This does not delete the original source files from disk.
+Deletes the selected entries from the application's Island database. This does not delete the original source files from disk.
 
 ---
 
-# Map Packages Tab
+# Island Packages Tab
 
-A **Map Package** describes a group of maps that will be exported together as one mod.
+An **Island Package** describes a group of Islands that will be exported together as one mod.
 
-## Map Package
+## Island Package
 
 Selects the package to edit.
 
 ### New
 
-Creates a new Map Package. Each package receives an internal two-character package ID used in generated map paths.
+Creates a new Island Package. Each package receives an internal two-character package ID used in generated Island paths.
 
 ### Rename
 
-Renames the selected package and updates existing map assignments.
+Renames the selected package and updates existing Island assignments.
 
 ### Delete
 
-Deletes the package definition and clears its assignments from maps. The maps themselves remain in the General database.
+Deletes the package definition and clears its assignments from Islands. The Islands themselves remain in the General database.
 
 ## Mod Name
 
@@ -331,7 +331,7 @@ Removes selected entries from the pending Additional Files list.
 
 ### Save
 
-Stores the Additional Files list in the currently selected Map Package.
+Stores the Additional Files list in the currently selected Island Package.
 
 ## Version
 
@@ -341,9 +341,9 @@ A version must be configured before export.
 
 ## Region
 
-Default Region associated with the Map Package.
+Default Region associated with the Island Package.
 
-When maps are added to the package from the General tab, the application can optionally apply this Region to them.
+When Islands are added to the package from the General tab, the application can optionally apply this Region to them.
 
 ## Save Package Settings
 
@@ -351,52 +351,52 @@ Stores Mod Name, Version, Region, and optional GUID-range configuration for the 
 
 ## Use different GUID ranges
 
-Enables a separate GUID range for this Map Package.
+Enables a separate GUID range for this Island Package.
 
-This is useful for reserving a dedicated GUID block for a particular collection of maps.
+This is useful for reserving a dedicated GUID block for a particular collection of Islands.
 
 ### GUID Start / GUID End
 
 Defines the inclusive package-specific range.
 
-When maps are assigned to this package, the application can optionally allocate new free GUIDs from this range.
+When Islands are assigned to this package, the application can optionally allocate new free GUIDs from this range.
 
-## Map Package table
+## Island Package table
 
-Shows the maps currently assigned to the selected package:
+Shows the Islands currently assigned to the selected package:
 
-- Map Name
+- Island Name
 - Region
-- Map Package
+- Island Package
 - GUID
 - Type
-- Map File
+- Island File
 
-## Map Package table context menu
+## Island Package table context menu
 
 ### Set Region
 
-Changes the Region of the selected package maps.
+Changes the Region of the selected package Islands.
 
 ### Change GUID
 
-Changes the GUID of exactly one selected map.
+Changes the GUID of exactly one selected Island.
 
 ### Change Type
 
-Sets selected maps to `Normal` or `Decoration`.
+Sets selected Islands to `Normal` or `Decoration`.
 
 ### Remove from Package
 
-Removes the selected maps from this Map Package without deleting them from the General database.
+Removes the selected Islands from this Island Package without deleting them from the General database.
 
 ---
 
-# Export Maps as Mod Tab
+# Export Island Package as Mod Tab
 
-This tab turns a configured Map Package into a mod folder.
+This tab turns a configured Island Package into a mod folder.
 
-## Map Package
+## Island Package
 
 Selects the package to export.
 
@@ -406,27 +406,27 @@ Only packages belonging to the currently selected game are listed.
 
 Parent folder in which the generated mod folder will be created.
 
-The initial value is taken from the selected game's **Default Export Path** in Settings.
+The initial value is taken from the selected game's **Anno Mod Folder** in Settings.
 
 ### Browse...
 
 Selects another export parent folder for the current operation.
 
-## Export Map Package as Mod
+## Export Island Package as Mod
 
 Starts the export.
 
 Before export, the application validates that:
 
-- a Map Package is selected;
+- an Island Package is selected;
 - the package still exists;
 - Mod Name is configured and valid as a Windows folder name;
 - the Export Folder exists;
-- the package contains maps;
+- the package contains Islands;
 - the package has an internal ID;
 - Version is configured;
 - Creator is configured;
-- all map files and required Region mappings are available.
+- all Island files and required Region Islandpings are available.
 
 If the target mod already exists, the application asks before replacing it.
 
@@ -434,10 +434,10 @@ The file operation runs in a background worker so the interface remains responsi
 
 ## Region-specific export folder structure
 
-Exported map folders are grouped by the resolved game-facing Region ID below the Map Package ID. The region directory is inserted between `<Package ID>` and `islands`.
+Exported Island folders are grouped by the resolved game-facing Region ID below the Island Package ID. The region directory is inserted between `<Package ID>` and `islands`.
 
 ```text
-data/<Package ID>/<Region ID>/islands/<Source Map Folder>/...
+data/<Package ID>/<Region ID>/islands/<Source Island Folder>/...
 ```
 
 Examples for Anno 1800 include:
@@ -453,7 +453,7 @@ Anno 117 uses the same structure with its resolved game Region IDs, for example 
 
 ## Export Log
 
-Shows live export progress, including copied map files, generated files, Additional Files, success messages, and errors. The log automatically scrolls to the newest message.
+Shows live export progress, including copied Island files, generated files, Additional Files, success messages, and errors. The log automatically scrolls to the newest message.
 
 ---
 
@@ -481,17 +481,17 @@ Contact or URL placed in the `CreatorContact` field of `modinfo.json`.
 
 ## GUID Start / GUID End
 
-Default inclusive GUID allocation range used when importing Anno 117 maps.
+Default inclusive GUID allocation range used when importing Anno 117 Islands.
 
 Both values are required and must contain digits only. `GUID Start` must not be greater than `GUID End`.
 
-## Default Export Path
+## Anno Mod Folder
 
-Default parent directory shown in **Export Maps as Mod** when Anno 117 is selected.
+Default parent directory shown in **Export Island Package as Mod** when Anno 117 is selected.
 
 ## Custom Region
 
-Adds extra display-name-to-game-ID mappings for regions not included in the application's built-in region list.
+Adds extra display-name-to-game-ID Islandpings for regions not included in the application's built-in region list.
 
 ### Region
 
@@ -535,20 +535,20 @@ Custom regions can be added for additional or mod-specific region identifiers.
 
 # Export Structure
 
-## Map files
+## Island files
 
-Map folders are copied to:
+Island folders are copied to:
 
 ```text
 [IslandPackage] <Mod Name>\
 └── data\
     └── <Package ID>\
         └── islands\
-            └── <Original Map Folder>\
+            └── <Original Island Folder>\
                 └── ...
 ```
 
-The complete source directory containing each `.a7m` is copied, not only the `.a7m` itself. This preserves supporting files stored beside the map.
+The complete source directory containing each `.a7m` is copied, not only the `.a7m` itself. This preserves supporting files stored beside the Island.
 
 ## Anno 117 assets.xml
 
@@ -558,7 +558,7 @@ Generated at:
 [IslandPackage] <Mod Name>\data\base\config\export\assets.xml
 ```
 
-For normal Anno 117 maps, placeholder size is inferred from the map name where possible. Names containing `medium`, `large`, `extralarge`, `extra_large`, or `continental` influence the generated placeholder configuration.
+For normal Anno 117 Islands, placeholder size is inferred from the Island name where possible. Names containing `medium`, `large`, `extralarge`, `extra_large`, or `continental` influence the generated placeholder configuration.
 
 ## Anno 1800 assets.xml
 
@@ -576,7 +576,7 @@ Generated in the root of the mod:
 [IslandPackage] <Mod Name>\modinfo.json
 ```
 
-It contains the configured Version, Creator, Creator Contact, generated ModID, Map category, and localized Mod Name/Description entries.
+It contains the configured Version, Creator, Creator Contact, generated ModID, Island category, and localized Mod Name/Description entries.
 
 ---
 
@@ -584,21 +584,21 @@ It contains the configured Version, Creator, Creator Contact, generated ModID, M
 
 ## Source files remain external
 
-Imported maps are referenced by absolute source path. Keep the original map folders available until the mod has been exported.
+Imported Islands are referenced by absolute source path. Keep the original Island folders available until the mod has been exported.
 
 ## Moving source folders
 
 If an imported `.a7m` or an Additional Files source folder is moved or deleted, export can fail because the stored path is no longer valid.
 
-## Duplicate map folder names
+## Duplicate Island folder names
 
-Two maps in the same exported package cannot come from different source directories with the same folder name. The generated structure uses the source folder name inside the same `data/<Package ID>/<Region ID>/islands/` directory, so such a collision is rejected. Identical source-folder names in different regions use separate region directories.
+Two Islands in the same exported package cannot come from different source directories with the same folder name. The generated structure uses the source folder name inside the same `data/<Package ID>/<Region ID>/islands/` directory, so such a collision is rejected. Identical source-folder names in different regions use separate region directories.
 
 ## Region IDs matter
 
 The display Region and game Region ID are not necessarily identical. For example, Anno 117 `Albion` exports as `Celtic`, while `Latium` exports as `Roman`.
 
-If a selected Region has no usable mapping, export stops instead of producing an invalid `assets.xml`.
+If a selected Region has no usable Islandping, export stops instead of producing an invalid `assets.xml`.
 
 ## Existing export folders
 
@@ -620,7 +620,7 @@ python -m pip install -r requirements.txt
 Start the application with:
 
 ```bash
-python AnnoMapPackageCreator.py
+python AnnoIslandPackageCreator.py
 ```
 
 ---
@@ -678,18 +678,18 @@ It installs Python 3.12, installs `requirements.txt`, runs `pytest`, executes `0
 # Project Structure
 
 ```text
-Anno Map Package Creator/
+Anno Island Package Creator/
 ├── .github/workflows/release.yml
 ├── app/
 │   ├── backend/       # JSON persistence
 │   ├── config/        # Application, paths, and built-in regions
 │   ├── functions/     # Database, settings, links, update logic
-│   ├── models/        # Map and export data contracts
+│   ├── models/        # Island and export data contracts
 │   ├── services/      # Shared and game-specific export logic
 │   ├── templates/     # Shared dialogs and sortable tables
 │   └── ui/            # Main window, tabs, and Additional Files UI
 ├── tests/
-├── AnnoMapPackageCreator.py
+├── AnnoIslandPackageCreator.py
 ├── 00_build_onefile.py
 ├── 00_pack_project.py
 ├── config.json
@@ -708,8 +708,8 @@ Anno Map Package Creator/
 The application stores its persistent working data next to the application/project root:
 
 - `config.json`: global settings and per-game GUID/export-path settings
-- `config_anno_117.json`: Anno 117 maps, Map Packages, and custom regions
-- `config_anno_1800.json`: Anno 1800 maps, Map Packages, and custom regions
+- `config_anno_117.json`: Anno 117 Islands, Island Packages, and custom regions
+- `config_anno_1800.json`: Anno 1800 Islands, Island Packages, and custom regions
 - `version.txt`: authoritative application version
 
 When running as a packaged executable, these files are resolved relative to the executable directory.
@@ -718,7 +718,7 @@ When running as a packaged executable, these files are resolved relative to the 
 
 # Troubleshooting
 
-### "GUID Start and GUID End must be configured before importing maps"
+### "GUID Start and GUID End must be configured before importing Islands"
 
 Open **Settings**, configure the GUID range for the selected game, and click **Save**.
 
@@ -726,11 +726,11 @@ Open **Settings**, configure the GUID range for the selected game, and click **S
 
 Increase or change the configured GUID range, or manually reorganize existing GUID assignments.
 
-### "Set Mod Name in the Map Packages tab first"
+### "Set Mod Name in the Island Packages tab first"
 
-Select the Map Package, enter a Mod Name, and click **Save Package Settings**.
+Select the Island Package, enter a Mod Name, and click **Save Package Settings**.
 
-### "Set Version in the Map Packages tab before exporting"
+### "Set Version in the Island Packages tab before exporting"
 
 Enter a Version for the selected package and save the package settings.
 
@@ -738,13 +738,13 @@ Enter a Version for the selected package and save the package settings.
 
 Enter the Creator under **Settings → General** and save the settings.
 
-### "No Region ID mapping found"
+### "No Region ID Islandping found"
 
-Check the map's Region. If it is not a built-in region, create a matching **Custom Region** with the correct game ID under Settings.
+Check the Island's Region. If it is not a built-in region, create a matching **Custom Region** with the correct game ID under Settings.
 
-### "Map file not found"
+### "Island file not found"
 
-The imported `.a7m` has been moved, renamed, or deleted. Restore it to the stored path or re-import the map from its new location.
+The imported `.a7m` has been moved, renamed, or deleted. Restore it to the stored path or re-import the Island from its new location.
 
 ### "Additional Files folder does not exist"
 
@@ -758,72 +758,66 @@ This is expected when exporting to a folder containing a mod with the same Mod N
 
 # Known Limitations
 
-- Only `.a7m` map files are imported as maps.
-- Map and Additional Files entries depend on their stored filesystem paths remaining available.
-- Map Packages are game-specific and are not shared between Anno 117 and Anno 1800.
+- Only `.a7m` Island files are imported as Islands.
+- Island and Additional Files entries depend on their stored filesystem paths remaining available.
+- Island Packages are game-specific and are not shared between Anno 117 and Anno 1800.
 - Package IDs are automatically managed internally and are limited to two lowercase base-36 characters.
 - The current release workflow builds a Windows artifact.
 
 ---
 
-# License
-
-No license file or explicit software license is currently defined in the project. Do not assume redistribution or modification rights beyond those granted by the project owner until a license is added.
-
----
-
-## Recommended Map Package Checklist
+## Recommended Island Package Checklist
 
 Before exporting, verify:
 
 - [ ] Correct game selected
 - [ ] Creator configured
 - [ ] Valid GUID range configured
-- [ ] Map Package created
+- [ ] Island Package created
 - [ ] Mod Name configured
 - [ ] Version configured
 - [ ] Correct package Region selected
-- [ ] All maps assigned to the package
-- [ ] Each map has the correct Region
-- [ ] Each map has a unique GUID
-- [ ] Each map has the correct `Normal` / `Decoration` Type
+- [ ] All Islands assigned to the package
+- [ ] Each Island has the correct Region
+- [ ] Each Island has a unique GUID
+- [ ] Each Island has the correct `Normal` / `Decoration` Type
 - [ ] Optional Additional Files configured and saved
 - [ ] Export Folder exists
-- [ ] Source map folders still exist
+- [ ] Source Island folders still exist
 - [ ] Export completed without errors in the Export Log
 
 ---
 
 # Deutsche Dokumentation
 
-Der **Anno Map Package Creator** ist ein Desktop-Tool, mit dem benutzerdefinierte `.a7m`-Inselkarten in wiederverwendbaren **Map Packages** organisiert und als einsatzbereite Mods für **Anno 117** und **Anno 1800** exportiert werden können.
+Der **Anno Island Package Creator** ist ein Desktop-Tool, mit dem benutzerdefinierte `.a7m`-InselInseln in wiederverwendbaren **Island Packages** organisiert und als einsatzbereite Mods für **Anno 117** und **Anno 1800** exportiert werden können.
 
-Die Anwendung führt durch den vollständigen Ablauf: Karten importieren, Regionen und GUIDs zuweisen, Karten zu Paketen zusammenfassen, zusätzliche Mod-Dateien ergänzen und anschließend die passende Mod-Struktur sowie die erforderliche `assets.xml` erzeugen.
+Die Anwendung führt durch den vollständigen Ablauf: Inseln importieren, Regionen und GUIDs zuweisen, Inseln zu Paketen zusammenfassen, zusätzliche Mod-Dateien ergänzen und anschließend die passende Mod-Struktur sowie die erforderliche `assets.xml` erzeugen.
 
 ## Funktionsumfang
 
 - Unterstützung für **Anno 117** und **Anno 1800** in einer Anwendung
 - Import einzelner `.a7m`-Dateien oder rekursive Ordnersuche
-- Verwaltung von GUIDs, Regionen, Kartentypen und Map Packages
-- Kartentypen `Normal` und `Decoration`
-- Map Packages mit Mod Name, Version, Region und optionalem eigenen GUID-Bereich
+- Verwaltung von GUIDs, Regionen, Inselntypen und Island Packages
+- Inselntypen `Normal` und `Decoration`
+- Island Packages mit Mod Name, Version, Region und optionalem eigenen GUID-Bereich
 - Benutzerdefinierte Regionen und Region-IDs
 - **Additional Files**, die direkt in das Stammverzeichnis der exportierten Mod kopiert werden
 - Automatische Erzeugung der passenden `assets.xml` und `modinfo.json`
-- Export vollständiger Kartenordner inklusive Unterordnern und Begleitdateien
+- Export vollständiger Inselnordner inklusive Unterordnern und Begleitdateien
 - Export in einem Hintergrund-Worker mit automatisch scrollendem Live-Log
 - Separate Standard-Exportpfade für Anno 117 und Anno 1800
 - Dark-Mode-Oberfläche mit sortierbaren Tabellen
 
 ---
 
-# Schnellablauf: Ein Map Package erstellen
+# Schnellablauf: Ein Island Package erstellen
 
 ## 1. Spiel auswählen
 
 Wähle oben in der Anwendung **Anno 117** oder **Anno 1800** aus.
 
-Die Auswahl bestimmt, welche Kartendatenbank, Regionen, Map Packages, Einstellungen und Exportformate verwendet werden.
+Die Auswahl bestimmt, welche Inselndatenbank, Regionen, Island Packages, Einstellungen und Exportformate verwendet werden.
 
 ## 2. Einstellungen konfigurieren
 
@@ -831,17 +825,17 @@ Die Auswahl bestimmt, welche Kartendatenbank, Regionen, Map Packages, Einstellun
 
 1. **Creator**
 2. **GUID Start** und **GUID End** für das ausgewählte Spiel
-3. Optional den **Default Export Path**
+3. Optional den **Anno Mod Folder**
 
-Wenn eine Karte eine Region verwendet, die nicht standardmäßig vorhanden ist, füge sie im Bereich **Custom Region** mit der korrekten Spiel-Region-ID hinzu.
+Wenn eine Insel eine Region verwendet, die nicht standardmäßig vorhanden ist, füge sie im Bereich **Custom Region** mit der korrekten Spiel-Region-ID hinzu.
 
 Klicke anschließend auf **Save**.
 
-> Der Creator ist für den Mod-Export erforderlich. Ein gültiger GUID-Bereich muss vor dem Import von Karten eingerichtet sein.
+> Der Creator ist für den Mod-Export erforderlich. Ein gültiger GUID-Bereich muss vor dem Import von Inseln eingerichtet sein.
 
-## 3. Map Package anlegen
+## 3. Island Package anlegen
 
-Öffne **Map Packages** und klicke auf **New**.
+Öffne **Island Packages** und klicke auf **New**.
 
 Gib einen internen Paketnamen ein, zum Beispiel:
 
@@ -858,34 +852,34 @@ Konfiguriere danach:
 
 Klicke auf **Save Package Settings**.
 
-## 4. Karten importieren
+## 4. Inseln importieren
 
 Öffne **General** und verwende:
 
-- **Add Map ( File )** für eine einzelne `.a7m`-Datei
-- **Add Map ( Folder )** für eine rekursive Suche nach `.a7m`-Dateien in einem Ordner
+- **Add Island ( File )** für eine einzelne `.a7m`-Datei
+- **Add Island ( Folder )** für eine rekursive Suche nach `.a7m`-Dateien in einem Ordner
 
-Neue Karten erhalten automatisch die nächste freie GUID aus dem konfigurierten GUID-Bereich.
+Neue Inseln erhalten automatisch die nächste freie GUID aus dem konfigurierten GUID-Bereich.
 
-## 5. Karten konfigurieren
+## 5. Inseln konfigurieren
 
-Markiere eine oder mehrere Karten in der General-Tabelle und öffne mit der rechten Maustaste das Kontextmenü.
+Markiere eine oder mehrere Inseln in der General-Tabelle und öffne mit der rechten Maustaste das Kontextmenü.
 
 Dort kannst du:
 
 - die **Region** setzen,
 - die **GUID** ändern,
 - den **Type** zwischen `Normal` und `Decoration` ändern,
-- Karten zu einem **Map Package** hinzufügen,
-- Karten aus der Anwendungsdatenbank löschen.
+- Inseln zu einem **Island Package** hinzufügen,
+- Inseln aus der Anwendungsdatenbank löschen.
 
-Beim Hinzufügen zu einem Map Package kann die Anwendung optional die Paket-Region und den paketbezogenen GUID-Bereich übernehmen.
+Beim Hinzufügen zu einem Island Package kann die Anwendung optional die Paket-Region und den paketbezogenen GUID-Bereich übernehmen.
 
-## 6. Map Package prüfen
+## 6. Island Package prüfen
 
-Öffne **Map Packages** und wähle das Paket aus.
+Öffne **Island Packages** und wähle das Paket aus.
 
-Prüfe in der Tabelle für jede Karte:
+Prüfe in der Tabelle für jede Insel:
 
 - Region
 - GUID
@@ -903,7 +897,7 @@ Klicke auf **Add Files** und wähle einen Ordner aus. Der ausgewählte Ordner is
 Beispiel für den ausgewählten Ordner:
 
 ```text
-C:\map_files\xxx\yyy\material\
+C:\Island_files\xxx\yyy\material\
 ```
 
 Inhalt:
@@ -926,15 +920,15 @@ Exportiertes Ergebnis:
 
 Der Ordner `material` selbst wird nicht in der Mod angelegt.
 
-Die Tabelle zeigt Quell-Root, vollständigen Quellpfad und ein Exportbeispiel. Über **Rechtsklick → Delete** kann ein Eintrag entfernt werden. Mit **Save** wird die Liste für das aktuell ausgewählte Map Package gespeichert.
+Die Tabelle zeigt Quell-Root, vollständigen Quellpfad und ein Exportbeispiel. Über **Rechtsklick → Delete** kann ein Eintrag entfernt werden. Mit **Save** wird die Liste für das aktuell ausgewählte Island Package gespeichert.
 
 ## 8. Mod exportieren
 
-Öffne **Export Maps as Mod**.
+Öffne **Export Island Package as Mod**.
 
-1. Wähle das **Map Package**.
+1. Wähle das **Island Package**.
 2. Prüfe oder ändere den **Export Folder**.
-3. Klicke auf **Export Map Package as Mod**.
+3. Klicke auf **Export Island Package as Mod**.
 
 Das Ergebnis wird hier erstellt:
 
@@ -952,7 +946,7 @@ Das Export-Log zeigt kopierte Dateien und erzeugte Metadaten. Existiert der Ziel
 
 ### Game
 
-Wechselt den vollständigen Arbeitskontext zwischen **Anno 117** und **Anno 1800**. Dadurch ändern sich Kartendatenbank, Map Packages, Exportpakete und Standard-Exportpfad.
+Wechselt den vollständigen Arbeitskontext zwischen **Anno 117** und **Anno 1800**. Dadurch ändern sich Inselndatenbank, Island Packages, Exportpakete und Standard-Exportpfad.
 
 ### GitHub
 
@@ -966,57 +960,57 @@ Wechselt den vollständigen Arbeitskontext zwischen **Anno 117** und **Anno 1800
 
 # Tab General
 
-Der Tab **General** enthält die zentrale Kartendatenbank des ausgewählten Spiels.
+Der Tab **General** enthält die zentrale Inselndatenbank des ausgewählten Spiels.
 
-## Add Map ( Folder )
+## Add Island ( Folder )
 
-Öffnet eine Ordnerauswahl und durchsucht den gewählten Ordner rekursiv nach `.a7m`-Dateien. Jede gefundene Karte wird einzeln importiert.
+Öffnet eine Ordnerauswahl und durchsucht den gewählten Ordner rekursiv nach `.a7m`-Dateien. Jede gefundene Insel wird einzeln importiert.
 
-## Add Map ( File )
+## Add Island ( File )
 
-Importiert eine einzelne `.a7m`-Karte. Ist derselbe Quellpfad bereits vorhanden, kann der bestehende Eintrag aktualisiert oder unverändert beibehalten werden.
+Importiert eine einzelne `.a7m`-Insel. Ist derselbe Quellpfad bereits vorhanden, kann der bestehende Eintrag aktualisiert oder unverändert beibehalten werden.
 
 ## Filter
 
-Filtert die Tabelle nach Map Package.
+Filtert die Tabelle nach Island Package.
 
-- **All** zeigt alle importierten Karten des ausgewählten Spiels.
-- Ein ausgewähltes Map Package zeigt nur die darin enthaltenen Karten.
+- **All** zeigt alle importierten Inseln des ausgewählten Spiels.
+- Ein ausgewähltes Island Package zeigt nur die darin enthaltenen Inseln.
 
 ## Reassign GUIDs
 
-Vergibt die GUIDs aller Karten neu, die keinem Map Package zugeordnet sind. Verwendet wird der allgemeine **GUID Start / GUID End**-Bereich des aktiven Spiels. GUIDs paketgebundener Karten bleiben reserviert und werden übersprungen. Die Aktion wird mit **Apply / Cancel** bestätigt und bei zu kleinem Bereich nicht teilweise gespeichert.
+Vergibt die GUIDs aller Inseln neu, die keinem Island Package zugeordnet sind. Verwendet wird der allgemeine **GUID Start / GUID End**-Bereich des aktiven Spiels. GUIDs paketgebundener Inseln bleiben reserviert und werden übersprungen. Die Aktion wird mit **Apply / Cancel** bestätigt und bei zu kleinem Bereich nicht teilweise gespeichert.
 
 ## Tabellenspalten
 
-- **Map Name:** Dateiname der `.a7m` ohne Erweiterung
+- **Island Name:** Dateiname der `.a7m` ohne Erweiterung
 - **Region:** Anzeigename der zugewiesenen Region; wird beim Export in die Spiel-Region-ID übersetzt
-- **Map Package:** aktuell zugewiesenes Paket; leer bedeutet nicht zugewiesen
+- **Island Package:** aktuell zugewiesenes Paket; leer bedeutet nicht zugewiesen
 - **GUID:** eindeutige numerische GUID des exportierten RandomIsland-Assets
 - **Type:** `Normal` oder `Decoration`
-- **Map File:** absoluter Pfad zur importierten `.a7m`
+- **Island File:** absoluter Pfad zur importierten `.a7m`
 
 ## Rechtsklickmenü
 
 ### Set Region
 
-Weist den ausgewählten Karten eine eingebaute oder benutzerdefinierte Region zu.
+Weist den ausgewählten Inseln eine eingebaute oder benutzerdefinierte Region zu.
 
 ### Change GUID
 
-Ändert die GUID einer einzelnen ausgewählten Karte. Doppelte GUIDs werden abgelehnt.
+Ändert die GUID einer einzelnen ausgewählten Insel. Doppelte GUIDs werden abgelehnt.
 
 ### Change Type
 
-Ändert den Typ der ausgewählten Karten auf `Normal` oder `Decoration`.
+Ändert den Typ der ausgewählten Inseln auf `Normal` oder `Decoration`.
 
-### Add to Map Package...
+### Add to Island Package...
 
-Ordnet die ausgewählten Karten einem Map Package zu. Falls das Paket eine eigene Region oder einen eigenen GUID-Bereich besitzt, fragt die Anwendung, ob diese Werte übernommen werden sollen.
+Ordnet die ausgewählten Inseln einem Island Package zu. Falls das Paket eine eigene Region oder einen eigenen GUID-Bereich besitzt, fragt die Anwendung, ob diese Werte übernommen werden sollen.
 
 ### Remove from Package
 
-Entfernt die ausgewählten Karten aus ihrem aktuellen Map Package, ohne sie aus der General-Datenbank zu löschen. Mehrfachauswahl wird unterstützt. Karten ohne Package-Zuweisung bleiben unverändert.
+Entfernt die ausgewählten Inseln aus ihrem aktuellen Island Package, ohne sie aus der General-Datenbank zu löschen. Mehrfachauswahl wird unterstützt. Inseln ohne Package-Zuweisung bleiben unverändert.
 
 ### Delete
 
@@ -1024,17 +1018,17 @@ Entfernt die ausgewählten Einträge aus der Anwendungsdatenbank. Die Originalda
 
 ---
 
-# Tab Map Packages
+# Tab Island Packages
 
-Ein **Map Package** beschreibt eine Gruppe von Karten, die gemeinsam als eine Mod exportiert wird.
+Ein **Island Package** beschreibt eine Gruppe von Inseln, die gemeinsam als eine Mod exportiert wird.
 
-## Map Package
+## Island Package
 
 Wählt das zu bearbeitende Paket aus.
 
-- **New:** erstellt ein neues Map Package und vergibt intern eine zweistellige Package-ID
-- **Rename:** benennt das Paket um und aktualisiert vorhandene Kartenzuweisungen
-- **Delete:** löscht die Paketdefinition und entfernt die Zuweisungen, lässt die Karten aber in der General-Datenbank
+- **New:** erstellt ein neues Island Package und vergibt intern eine zweistellige Package-ID
+- **Rename:** benennt das Paket um und aktualisiert vorhandene Inselnzuweisungen
+- **Delete:** löscht die Paketdefinition und entfernt die Zuweisungen, lässt die Inseln aber in der General-Datenbank
 
 ## Mod Name
 
@@ -1048,7 +1042,7 @@ Der Mod Name wird außerdem in die `modinfo.json` übernommen.
 
 ## Additional Files
 
-Öffnet das Fenster für zusätzliche Dateien des ausgewählten Map Packages. Unter dem Button wird angezeigt, wie viele zusätzliche Quellordner gespeichert sind.
+Öffnet das Fenster für zusätzliche Dateien des ausgewählten Island Packages. Unter dem Button wird angezeigt, wie viele zusätzliche Quellordner gespeichert sind.
 
 ### Add Files
 
@@ -1066,7 +1060,7 @@ Entfernt die markierten Einträge aus der noch nicht gespeicherten Liste.
 
 ### Save
 
-Speichert die Additional-Files-Liste im aktuell ausgewählten Map Package.
+Speichert die Additional-Files-Liste im aktuell ausgewählten Island Package.
 
 ## Version
 
@@ -1074,7 +1068,7 @@ Version, die in die `modinfo.json` geschrieben wird. Vor dem Export muss eine Ve
 
 ## Region
 
-Standardregion des Map Packages. Beim Hinzufügen von Karten kann diese Region optional auf die Karten übertragen werden.
+Standardregion des Island Packages. Beim Hinzufügen von Inseln kann diese Region optional auf die Inseln übertragen werden.
 
 ## Save Package Settings
 
@@ -1082,39 +1076,39 @@ Speichert Mod Name, Version, Region und die optionale GUID-Bereichskonfiguration
 
 ## Use different GUID ranges
 
-Aktiviert einen separaten GUID-Bereich für dieses Map Package.
+Aktiviert einen separaten GUID-Bereich für dieses Island Package.
 
 ### GUID Start / GUID End
 
-Definiert den inklusiven paketbezogenen GUID-Bereich. Beim Zuweisen von Karten können daraus neue freie GUIDs vergeben werden.
+Definiert den inklusiven paketbezogenen GUID-Bereich. Beim Zuweisen von Inseln können daraus neue freie GUIDs vergeben werden.
 
 ### Reassign GUIDs
 
-Wird angezeigt, wenn **Use different GUID ranges** aktiviert ist. Nach einer Bestätigung mit **Apply / Cancel** erhalten alle Karten des aktuellen Map Packages neue GUIDs aus dem konfigurierten Package-Bereich. GUIDs außerhalb des Packages werden nicht doppelt vergeben. Ist der Bereich zu klein, erfolgt keine teilweise Neuzuweisung.
+Wird angezeigt, wenn **Use different GUID ranges** aktiviert ist. Nach einer Bestätigung mit **Apply / Cancel** erhalten alle Inseln des aktuellen Island Packages neue GUIDs aus dem konfigurierten Package-Bereich. GUIDs außerhalb des Packages werden nicht doppelt vergeben. Ist der Bereich zu klein, erfolgt keine teilweise Neuzuweisung.
 
 ## Paket-Tabelle
 
-Zeigt alle Karten des ausgewählten Pakets mit Map Name, Region, Map Package, GUID, Type und Map File.
+Zeigt alle Inseln des ausgewählten Pakets mit Island Name, Region, Island Package, GUID, Type und Island File.
 
 ## Rechtsklickmenü
 
-- **Set Region:** ändert die Region ausgewählter Karten
-- **Change GUID:** ändert die GUID einer einzelnen Karte
+- **Set Region:** ändert die Region ausgewählter Inseln
+- **Change GUID:** ändert die GUID einer einzelnen Insel
 - **Change Type:** setzt den Typ auf `Normal` oder `Decoration`
-- **Remove from Package:** entfernt Karten aus dem Paket, löscht sie aber nicht aus General
+- **Remove from Package:** entfernt Inseln aus dem Paket, löscht sie aber nicht aus General
 
 ---
 
-# Tab Export Maps as Mod
+# Tab Export Island Package as Mod
 
-Dieser Tab exportiert ein konfiguriertes Map Package als Mod-Ordner.
+Dieser Tab exportiert ein konfiguriertes Island Package als Mod-Ordner.
 
 ## Regionsabhängige Export-Ordnerstruktur
 
-Die exportierten Kartenordner werden nach der aufgelösten Spiel-Region-ID gruppiert. Zwischen `<Package ID>` und `islands` wird deshalb zusätzlich das Regionsverzeichnis eingefügt.
+Die exportierten Inselnordner werden nach der aufgelösten Spiel-Region-ID gruppiert. Zwischen `<Package ID>` und `islands` wird deshalb zusätzlich das Regionsverzeichnis eingefügt.
 
 ```text
-data/<Package ID>/<Region ID>/islands/<Quell-Kartenordner>/...
+data/<Package ID>/<Region ID>/islands/<Quell-Inselnordner>/...
 ```
 
 Beispiele für Anno 1800:
@@ -1128,36 +1122,36 @@ data/00/africa/islands/...
 
 Anno 117 verwendet dieselbe Struktur mit den aufgelösten Spiel-Region-IDs, zum Beispiel `roman` und `celtic`. Die `FilePath`-Einträge in der erzeugten `assets.xml` verwenden exakt denselben regionsabhängigen Pfad, damit XML-Verweise und tatsächliche Exportstruktur übereinstimmen.
 
-## Map Package
+## Island Package
 
 Wählt das zu exportierende Paket des aktuellen Spiels aus.
 
 ## Export Folder
 
-Übergeordneter Ordner, in dem die Mod angelegt wird. Der Anfangswert stammt aus dem spielbezogenen **Default Export Path**.
+Übergeordneter Ordner, in dem die Mod angelegt wird. Der Anfangswert stammt aus dem spielbezogenen **Anno Mod Folder**.
 
 ### Browse...
 
 Wählt einen anderen Exportordner für den aktuellen Vorgang.
 
-## Export Map Package as Mod
+## Export Island Package as Mod
 
 Startet den Export. Vorher prüft die Anwendung unter anderem:
 
-- Map Package ausgewählt und vorhanden
+- Island Package ausgewählt und vorhanden
 - gültiger Mod Name
 - Export Folder vorhanden
-- Paket enthält Karten
+- Paket enthält Inseln
 - interne Package-ID vorhanden
 - Version und Creator gesetzt
-- Karten- und Additional-Files-Quellen vorhanden
+- Inseln- und Additional-Files-Quellen vorhanden
 - gültige Region-Zuordnungen vorhanden
 
 Ein bestehender Zielordner wird nur nach Bestätigung ersetzt. Der Export läuft in einem Hintergrund-Worker.
 
 ## Export Log
 
-Zeigt kopierte Kartendateien, erzeugte Dateien, Additional Files, Meldungen und Fehler. Das Log scrollt automatisch zum neuesten Eintrag.
+Zeigt kopierte Inselndateien, erzeugte Dateien, Additional Files, Meldungen und Fehler. Das Log scrollt automatisch zum neuesten Eintrag.
 
 ---
 
@@ -1179,9 +1173,9 @@ Kontakt oder URL für das Feld `CreatorContact` in `modinfo.json`.
 
 ### GUID Start / GUID End
 
-Standardbereich für die automatische GUID-Vergabe beim Import von Anno-117-Karten. Beide Werte müssen aus Ziffern bestehen und Start darf nicht größer als Ende sein.
+Standardbereich für die automatische GUID-Vergabe beim Import von Anno-117-Inseln. Beide Werte müssen aus Ziffern bestehen und Start darf nicht größer als Ende sein.
 
-### Default Export Path
+### Anno Mod Folder
 
 Standard-Zielordner für den Anno-117-Export.
 
@@ -1222,14 +1216,14 @@ Die Bedienung entspricht Anno 117, die Werte werden jedoch separat gespeichert.
 
 # Exportstruktur
 
-## Kartendateien
+## Inselndateien
 
 ```text
 [IslandPackage] <Mod Name>\
 └── data\
     └── <Package ID>\
         └── islands\
-            └── <Original Map Folder>\
+            └── <Original Island Folder>\
                 └── ...
 ```
 
@@ -1241,7 +1235,7 @@ Der vollständige Quellordner der `.a7m` wird kopiert. Dadurch bleiben zugehöri
 [IslandPackage] <Mod Name>\data\base\config\export\assets.xml
 ```
 
-Für normale Karten wird die Platzhaltergröße soweit möglich aus dem Kartennamen erkannt. Begriffe wie `medium`, `large`, `extralarge`, `extra_large` oder `continental` beeinflussen die erzeugte Konfiguration.
+Für normale Inseln wird die Platzhaltergröße soweit möglich aus dem Inselnnamen erkannt. Begriffe wie `medium`, `large`, `extralarge`, `extra_large` oder `continental` beeinflussen die erzeugte Konfiguration.
 
 ## Anno 1800 assets.xml
 
@@ -1263,13 +1257,13 @@ Enthält Version, Creator, Creator Contact, erzeugte ModID, Kategorie sowie loka
 
 ## Quelldateien bleiben extern
 
-Importierte Karten werden über absolute Pfade referenziert. Die ursprünglichen Kartenordner müssen bis zum Export verfügbar bleiben.
+Importierte Inseln werden über absolute Pfade referenziert. Die ursprünglichen Inselnordner müssen bis zum Export verfügbar bleiben.
 
 ## Verschobene Quellen
 
 Wird eine `.a7m` oder ein Additional-Files-Ordner verschoben oder gelöscht, kann der Export wegen des ungültigen gespeicherten Pfads fehlschlagen.
 
-## Doppelte Kartenordnernamen
+## Doppelte Inselnordnernamen
 
 Zwei unterschiedliche Quellordner mit demselben Ordnernamen können nicht gemeinsam in einem Paket exportiert werden, wenn sie innerhalb derselben Region denselben Zielpfad unter `data/<Package ID>/<Region ID>/islands/` erhalten würden. Gleiche Quellordnernamen in unterschiedlichen Regionen liegen dagegen in getrennten Regionsverzeichnissen.
 
@@ -1296,7 +1290,7 @@ python -m pip install -r requirements.txt
 Anwendung starten:
 
 ```bash
-python AnnoMapPackageCreator.py
+python AnnoIslandPackageCreator.py
 ```
 
 # Tests
@@ -1328,18 +1322,18 @@ python 00_pack_project.py
 # Projektstruktur
 
 ```text
-Anno Map Package Creator/
+Anno Island Package Creator/
 ├── .github/workflows/release.yml
 ├── app/
 │   ├── backend/       # JSON-Persistenz
 │   ├── config/        # Anwendung, Pfade und eingebaute Regionen
 │   ├── functions/     # Datenbank-, Einstellungs-, Link- und Updatefunktionen
-│   ├── models/        # Karten- und Exportdatenmodelle
+│   ├── models/        # Inseln- und Exportdatenmodelle
 │   ├── services/      # gemeinsame und spielspezifische Exportlogik
 │   ├── templates/     # gemeinsame Dialoge und Tabellen
 │   └── ui/            # Hauptfenster, Tabs und Additional-Files-Fenster
 ├── tests/
-├── AnnoMapPackageCreator.py
+├── AnnoIslandPackageCreator.py
 ├── 00_build_onefile.py
 ├── 00_pack_project.py
 ├── config.json
@@ -1354,8 +1348,8 @@ Anno Map Package Creator/
 # Anwendungsdaten
 
 - `config.json`: globale Einstellungen sowie GUID- und Exportpfade
-- `config_anno_117.json`: Anno-117-Karten, Map Packages und Custom Regions
-- `config_anno_1800.json`: Anno-1800-Karten, Map Packages und Custom Regions
+- `config_anno_117.json`: Anno-117-Inseln, Island Packages und Custom Regions
+- `config_anno_1800.json`: Anno-1800-Inseln, Island Packages und Custom Regions
 - `version.txt`: maßgebliche Anwendungsversion
 
 In der gepackten Anwendung werden diese Dateien relativ zum Verzeichnis der ausführbaren Datei aufgelöst.
@@ -1364,7 +1358,7 @@ In der gepackten Anwendung werden diese Dateien relativ zum Verzeichnis der ausf
 
 # Fehlerbehebung
 
-### „GUID Start and GUID End must be configured before importing maps“
+### „GUID Start and GUID End must be configured before importing Islands“
 
 Unter **Settings** den GUID-Bereich für das ausgewählte Spiel eintragen und **Save** klicken.
 
@@ -1372,11 +1366,11 @@ Unter **Settings** den GUID-Bereich für das ausgewählte Spiel eintragen und **
 
 Den GUID-Bereich vergrößern oder vorhandene GUID-Zuweisungen neu organisieren.
 
-### „Set Mod Name in the Map Packages tab first“
+### „Set Mod Name in the Island Packages tab first“
 
-Im Tab Map Packages einen Mod Name eintragen und **Save Package Settings** klicken.
+Im Tab Island Packages einen Mod Name eintragen und **Save Package Settings** klicken.
 
-### „Set Version in the Map Packages tab before exporting“
+### „Set Version in the Island Packages tab before exporting“
 
 Eine Version eintragen und die Paketdaten speichern.
 
@@ -1384,11 +1378,11 @@ Eine Version eintragen und die Paketdaten speichern.
 
 Unter **Settings → General** den Creator eintragen und speichern.
 
-### „No Region ID mapping found“
+### „No Region ID Islandping found“
 
-Die Kartenregion prüfen. Für nicht eingebaute Regionen eine Custom Region mit korrekter Spiel-ID anlegen.
+Die Inselnregion prüfen. Für nicht eingebaute Regionen eine Custom Region mit korrekter Spiel-ID anlegen.
 
-### „Map file not found“
+### „Island file not found“
 
 Die `.a7m` wurde verschoben, umbenannt oder gelöscht. Datei wiederherstellen oder vom neuen Pfad erneut importieren.
 
@@ -1400,15 +1394,11 @@ Der gespeicherte zusätzliche Quellordner wurde verschoben oder gelöscht. Den u
 
 # Bekannte Einschränkungen
 
-- Es können nur `.a7m`-Dateien als Karten importiert werden.
-- Karten und Additional Files sind von den gespeicherten Dateisystempfaden abhängig.
-- Map Packages sind spielspezifisch und werden nicht zwischen Anno 117 und Anno 1800 geteilt.
+- Es können nur `.a7m`-Dateien als Inseln importiert werden.
+- Inseln und Additional Files sind von den gespeicherten Dateisystempfaden abhängig.
+- Island Packages sind spielspezifisch und werden nicht zwischen Anno 117 und Anno 1800 geteilt.
 - Interne Package-IDs bestehen aus zwei kleingeschriebenen Base-36-Zeichen.
 - Der aktuelle Release-Workflow erzeugt ein Windows-Artefakt.
-
-# Lizenz
-
-Im Projekt ist derzeit keine Lizenzdatei oder ausdrückliche Softwarelizenz definiert. Ohne ergänzte Lizenz sollten keine weitergehenden Rechte zur Verteilung oder Änderung angenommen werden.
 
 ---
 
@@ -1417,15 +1407,15 @@ Im Projekt ist derzeit keine Lizenzdatei oder ausdrückliche Softwarelizenz defi
 - [ ] Richtiges Spiel ausgewählt
 - [ ] Creator eingetragen
 - [ ] Gültiger GUID-Bereich konfiguriert
-- [ ] Map Package erstellt
+- [ ] Island Package erstellt
 - [ ] Mod Name eingetragen
 - [ ] Version eingetragen
 - [ ] Richtige Paket-Region ausgewählt
-- [ ] Alle Karten dem Paket zugewiesen
-- [ ] Jede Karte besitzt die richtige Region
-- [ ] Jede Karte besitzt eine eindeutige GUID
-- [ ] Jede Karte besitzt den richtigen Typ `Normal` oder `Decoration`
+- [ ] Alle Inseln dem Paket zugewiesen
+- [ ] Jede Insel besitzt die richtige Region
+- [ ] Jede Insel besitzt eine eindeutige GUID
+- [ ] Jede Insel besitzt den richtigen Typ `Normal` oder `Decoration`
 - [ ] Optionale Additional Files konfiguriert und gespeichert
 - [ ] Export Folder existiert
-- [ ] Quellordner der Karten sind noch vorhanden
+- [ ] Quellordner der Inseln sind noch vorhanden
 - [ ] Export-Log enthält keine Fehler

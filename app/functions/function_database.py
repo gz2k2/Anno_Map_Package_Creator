@@ -205,10 +205,10 @@ Side effects:
     changed = False
     for x in raw:
         if isinstance(x, str):
-            pkg = {'name': x, 'mod_name': '', 'version': '', 'region': '', 'use_different_guid_ranges': False, 'guid_start': '', 'guid_end': '', 'id': '', 'additional_files': []}
+            pkg = {'name': x, 'mod_name': '', 'modio_mod_id': '', 'version': '', 'region': '', 'use_different_guid_ranges': False, 'guid_start': '', 'guid_end': '', 'id': '', 'additional_files': []}
             changed = True
         else:
-            pkg = {'name': str(x.get('name', '')), 'mod_name': str(x.get('mod_name', '')), 'version': str(x.get('version', '')), 'region': str(x.get('region', '')), 'use_different_guid_ranges': bool(x.get('use_different_guid_ranges', False)), 'guid_start': str(x.get('guid_start', '')), 'guid_end': str(x.get('guid_end', '')), 'id': str(x.get('id', '')).lower(), 'additional_files': [str(v) for v in x.get('additional_files', []) if str(v).strip()]}
+            pkg = {'name': str(x.get('name', '')), 'mod_name': str(x.get('mod_name', '')), 'modio_mod_id': str(x.get('modio_mod_id', '')), 'version': str(x.get('version', '')), 'region': str(x.get('region', '')), 'use_different_guid_ranges': bool(x.get('use_different_guid_ranges', False)), 'guid_start': str(x.get('guid_start', '')), 'guid_end': str(x.get('guid_end', '')), 'id': str(x.get('id', '')).lower(), 'additional_files': [str(v) for v in x.get('additional_files', []) if str(v).strip()]}
         if len(pkg['id']) != 2 or any((c not in PACKAGE_ID_ALPHABET for c in pkg['id'])) or any((p['id'] == pkg['id'] for p in packages)):
             pkg['id'] = next_package_id(packages)
             changed = True
@@ -278,7 +278,7 @@ Side effects:
         raise ValueError('Map Package name must not be empty.')
     if any((x['name'].casefold() == name.casefold() for x in packages)):
         raise ValueError('This Map Package already exists.')
-    packages.append({'name': name, 'mod_name': '', 'version': '', 'region': '', 'use_different_guid_ranges': False, 'guid_start': '', 'guid_end': '', 'id': next_package_id(packages), 'additional_files': []})
+    packages.append({'name': name, 'mod_name': '', 'modio_mod_id': '', 'version': '', 'region': '', 'use_different_guid_ranges': False, 'guid_start': '', 'guid_end': '', 'id': next_package_id(packages), 'additional_files': []})
     save_packages(game, packages)
 
 def update_package_additional_files(game, name, folders):
@@ -349,7 +349,7 @@ Side effects:
             e.map_package = ''
     save_entries(game, entries)
 
-def update_package_options(game, name, mod_name, version, region, use_range, guid_start, guid_end):
+def update_package_options(game, name, mod_name, version, region, use_range, guid_start, guid_end, modio_mod_id=''):
     """Perform the update package options operation for this module responsibility.
 
 Args:
@@ -373,7 +373,7 @@ Side effects:
         raise ValueError('Select a Map Package first.')
     if use_range:
         validate_guid_range(guid_start, guid_end)
-    pkg.update({'mod_name': mod_name.strip(), 'version': version.strip(), 'region': region.strip(), 'use_different_guid_ranges': bool(use_range), 'guid_start': guid_start.strip(), 'guid_end': guid_end.strip()})
+    pkg.update({'mod_name': mod_name.strip(), 'modio_mod_id': str(modio_mod_id).strip(), 'version': version.strip(), 'region': region.strip(), 'use_different_guid_ranges': bool(use_range), 'guid_start': guid_start.strip(), 'guid_end': guid_end.strip()})
     save_packages(game, packages)
 
 def package_entries(game, name):

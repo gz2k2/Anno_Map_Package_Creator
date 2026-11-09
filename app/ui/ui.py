@@ -105,7 +105,7 @@ class MainWindow(ctk.CTk):
         if self._settings_save_active:
             return
         self._settings_save_active = True
-        self.settings_tab.save_button.configure(state='disabled')
+        self.settings_tab.set_save_buttons_state('disabled')
         threading.Thread(target=self._save_settings_worker, args=(settings,), daemon=True).start()
 
     def _save_settings_worker(self, settings: dict) -> None:
@@ -124,10 +124,11 @@ class MainWindow(ctk.CTk):
             pass
         else:
             self._settings_save_active = False
-            self.settings_tab.save_button.configure(state='normal')
+            self.settings_tab.set_save_buttons_state('normal')
             if succeeded:
                 self.settings = result
                 self.settings_tab.settings = result
+                self.export_maps_tab.sync_export_folder(result)
                 AppDialog(self, 'Settings Saved', 'Settings were saved successfully.')
             else:
                 AppDialog(self, 'Settings Save Failed', result)

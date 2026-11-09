@@ -27,6 +27,7 @@ Side effects:
         self.game = ctk.StringVar(value=selected_game)
         self.package = ctk.StringVar()
         self.mod_name = ctk.StringVar()
+        self.modio_mod_id = ctk.StringVar()
         self.version = ctk.StringVar()
         self.region = ctk.StringVar()
         self.use_range = ctk.BooleanVar()
@@ -56,9 +57,11 @@ Side effects:
         opts.pack(fill='x', padx=18, pady=8)
         ctk.CTkLabel(opts, text='Mod Name').grid(row=0, column=0, padx=14, pady=10, sticky='w')
         ctk.CTkEntry(opts, textvariable=self.mod_name, width=220).grid(row=0, column=1, padx=8, pady=10, sticky='w')
-        ctk.CTkButton(opts, text='Additional Files', command=self.open_additional_files).grid(row=0, column=2, padx=(14, 18), pady=10, sticky='e')
+        ctk.CTkLabel(opts, text='mod.io ID').grid(row=0, column=2, padx=(14, 8), pady=10, sticky='w')
+        ctk.CTkEntry(opts, textvariable=self.modio_mod_id, width=180).grid(row=0, column=3, padx=8, pady=10, sticky='w')
+        ctk.CTkButton(opts, text='Additional Files', command=self.open_additional_files).grid(row=0, column=4, padx=(14, 18), pady=10, sticky='e')
         self.additional_files_info = ctk.CTkLabel(opts, text='', text_color='#a0a0a0', font=ctk.CTkFont(size=11))
-        self.additional_files_info.grid(row=1, column=2, padx=(14, 18), pady=(0, 6), sticky='e')
+        self.additional_files_info.grid(row=1, column=4, padx=(14, 18), pady=(0, 6), sticky='e')
         ctk.CTkLabel(opts, text='Version').grid(row=1, column=0, padx=14, pady=10, sticky='w')
         ctk.CTkEntry(opts, textvariable=self.version, width=220).grid(row=1, column=1, padx=8, pady=10, sticky='w')
         ctk.CTkLabel(opts, text='Region').grid(row=2, column=0, padx=14, pady=10, sticky='w')
@@ -77,9 +80,9 @@ Side effects:
             command=self.confirm_reassign_guids,
         )
         self.reassign_guids_button.pack(side='left', padx=(10, 0))
-        ctk.CTkButton(opts, text='Save Package Settings', command=self.save_options).grid(row=2, column=2, padx=(14, 18), pady=10, sticky='e')
+        ctk.CTkButton(opts, text='Save Package Settings', command=self.save_options).grid(row=2, column=4, padx=(14, 18), pady=10, sticky='e')
         opts.grid_columnconfigure(1, weight=0)
-        opts.grid_columnconfigure(2, weight=1)
+        opts.grid_columnconfigure(4, weight=1)
         cols = [('Map_Name', 'Island Name', 180), ('Region', 'Region', 120), ('Map_Package', 'Island Package', 170), ('GUID', 'GUID', 110), ('Type', 'Type', 110), ('Map_File', 'Map File', 300)]
         self.table = SortableTable(self, cols)
         self.table.pack(fill='both', expand=True, padx=18, pady=(4, 18))
@@ -107,7 +110,7 @@ Returns:
 Side effects:
     May update application state, persistent data, filesystem content, or UI state as implied by the owning module."""
         if self.use_range.get():
-            self.range_frame.grid(row=4, column=0, columnspan=3, padx=14, pady=(0, 12), sticky='w')
+            self.range_frame.grid(row=4, column=0, columnspan=5, padx=14, pady=(0, 12), sticky='w')
         else:
             self.range_frame.grid_remove()
 
@@ -138,6 +141,7 @@ Side effects:
                 self.use_range.get(),
                 self.guid_start.get(),
                 self.guid_end.get(),
+                self.modio_mod_id.get(),
             )
             changed = reassign_package_guids(self.game.get(), self.package.get())
             self.load_selected()
@@ -177,6 +181,7 @@ Side effects:
         pkg = next((x for x in load_packages(self.game.get()) if x['name'] == self.package.get()), None)
         if pkg:
             self.mod_name.set(pkg.get('mod_name', ''))
+            self.modio_mod_id.set(pkg.get('modio_mod_id', ''))
             self.version.set(pkg.get('version', ''))
             self.region.set(pkg['region'])
             self.use_range.set(pkg['use_different_guid_ranges'])
@@ -185,6 +190,7 @@ Side effects:
             self.additional_files_info.configure(text=f"{len(pkg.get('additional_files', []))} additional file folder(s)" if pkg.get('additional_files') else '')
         else:
             self.mod_name.set('')
+            self.modio_mod_id.set('')
             self.version.set('')
             self.region.set('')
             self.use_range.set(False)
@@ -222,7 +228,7 @@ Returns:
 Side effects:
     May update application state, persistent data, filesystem content, or UI state as implied by the owning module."""
         try:
-            update_package_options(self.game.get(), self.package.get(), self.mod_name.get(), self.version.get(), self.region.get(), self.use_range.get(), self.guid_start.get(), self.guid_end.get())
+            update_package_options(self.game.get(), self.package.get(), self.mod_name.get(), self.version.get(), self.region.get(), self.use_range.get(), self.guid_start.get(), self.guid_end.get(), self.modio_mod_id.get())
             self.on_data_changed()
             AppDialog(self, 'Map Package', 'Package settings saved.')
         except (ValueError, OSError) as e:

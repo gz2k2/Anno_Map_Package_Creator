@@ -43,15 +43,19 @@ Returns:
 
 Side effects:
     May update application state, persistent data, filesystem content, or UI state as implied by the owning module."""
-        self.tabs = ctk.CTkTabview(self)
-        self.tabs.pack(fill='both', expand=True, padx=12, pady=(12, 6))
+        main_frame = ctk.CTkFrame(self, fg_color='transparent')
+        main_frame.pack(fill='both', expand=True, padx=12, pady=12)
+        main_frame.grid_columnconfigure(0, weight=1)
+        main_frame.grid_rowconfigure(0, weight=1)
+        self.tabs = ctk.CTkTabview(main_frame)
+        self.tabs.grid(row=0, column=0, sticky='nsew', pady=(0, 6))
         for name in ('General', 'Anno 117', 'Anno 1800'):
             self.tabs.add(name)
         self._build_general(self.tabs.tab('General'))
         for game in SUPPORTED_GAMES:
             self._build_game(self.tabs.tab(game), game)
-        self.save_button = ctk.CTkButton(self, text='Save', command=lambda: self.save_callback(self.values()))
-        self.save_button.pack(anchor='e', padx=18, pady=(0, 18))
+        self.save_button = ctk.CTkButton(main_frame, text='Save', command=lambda: self.save_callback(self.values()))
+        self.save_button.grid(row=1, column=0, sticky='e', pady=(6, 0))
 
     def _build_general(self, parent):
         """Perform the build general operation for this module responsibility.
@@ -90,16 +94,16 @@ Side effects:
         guid = ctk.CTkFrame(parent)
         guid.pack(fill='x', padx=14, pady=(14, 8))
         ctk.CTkLabel(guid, text='GUID Range', font=ctk.CTkFont(size=17, weight='bold')).grid(row=0, column=0, columnspan=4, padx=14, pady=12, sticky='w')
+        guid_fields = ctk.CTkFrame(guid, fg_color='transparent')
+        guid_fields.grid(row=1, column=0, columnspan=4, padx=14, pady=10, sticky='w')
         for col, (key, label) in enumerate((('guid_start', 'GUID Start'), ('guid_end', 'GUID End'))):
             var = ctk.StringVar(value=self.settings['games'][game][key])
             self.vars[game][key] = var
-            ctk.CTkLabel(guid, text=label).grid(row=1, column=col * 2, padx=(14, 6), pady=10, sticky='w')
-            ctk.CTkEntry(guid, textvariable=var, validate='key', validatecommand=validator, width=140).grid(row=1, column=col * 2 + 1, padx=(0, 14), pady=10, sticky='ew')
-        guid.grid_columnconfigure(1, weight=0)
-        guid.grid_columnconfigure(3, weight=0)
+            ctk.CTkLabel(guid_fields, text=label, width=80, anchor='w').grid(row=0, column=col * 2, padx=(0, 8), sticky='w')
+            ctk.CTkEntry(guid_fields, textvariable=var, validate='key', validatecommand=validator, width=110).grid(row=0, column=col * 2 + 1, padx=(0, 28 if col == 0 else 0), sticky='w')
         export_var = ctk.StringVar(value=self.settings['games'][game].get('default_export_path', ''))
         self.vars[game]['default_export_path'] = export_var
-        ctk.CTkLabel(guid, text='Default Export Path').grid(row=2, column=0, padx=14, pady=10, sticky='w')
+        ctk.CTkLabel(guid, text='Anno Mod Folder').grid(row=2, column=0, padx=14, pady=10, sticky='w')
         ctk.CTkEntry(guid, textvariable=export_var, width=420).grid(row=2, column=1, columnspan=2, padx=(0, 8), pady=10, sticky='w')
         ctk.CTkButton(guid, text='Browse...', width=90, command=lambda g=game: self.select_export_path(g)).grid(row=2, column=3, padx=(0, 14), pady=10, sticky='e')
         region = ctk.CTkFrame(parent)
@@ -123,6 +127,10 @@ Side effects:
         self.region_tables[game] = table
         self._bind_region_context_menu(game, table)
         self.reload_custom_regions(game)
+
+    def set_save_buttons_state(self, state):
+        """Set the state of the shared Settings Save button."""
+        self.save_button.configure(state=state)
 
     def select_export_path(self, game):
         """Perform the select export path operation for this module responsibility.

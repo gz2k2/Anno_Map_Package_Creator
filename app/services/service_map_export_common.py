@@ -80,9 +80,16 @@ def write_modinfo(request: ExportRequest, anno_value: int | None=None) -> Path:
         raise ValueError('Set Version in the Island Packages tab before exporting.')
     if not creator:
         raise ValueError('Set Creator in Settings > General before exporting.')
-    display_name = f'[IslandPackage] {mod_name} [{creator}]'
+
+    # Build the payload with a ModID that is a combination of "mappackage", the slugified mod name, and the slugified creator name. The display name and description are prefixed with "[IslandPackage]". The payload includes version, Anno value (if provided), category, mod name, description, creator name, and contact information. The modinfo.json file is written to the target directory with UTF-8 encoding and proper formatting.
+    # to add CreatorName and CreatorContact to the payload, we can include them in the dictionary as follows:
+    # display_name = f'[IslandPackage] {mod_name} {creator}'
+    # description = f'[IslandPackage] {mod_name} by {creator}'
+    
+    display_name = f'[IslandPackage] {mod_name}'
     description = f'[IslandPackage] {mod_name}'
-    payload = {'Version': version, 'ModID': '-'.join(filter(None, ('mappackage', slug_component(mod_name), slug_component(creator)))), 'IncompatibleIds': [], 'LoadAfterIds': [], 'Category': {language: 'Map' for language in LANGUAGES}, 'ModName': {language: display_name for language in LANGUAGES}, 'Description': {language: description for language in LANGUAGES}, 'CreatorName': creator, 'CreatorContact': creator_url, 'Image': None}
+    modio_game_id = '11358' if request.game == 'Anno 117' else '4169' if request.game == 'Anno 1800' else ''
+    payload = {'Version': version, 'ModID': '-'.join(filter(None, ('mappackage', slug_component(mod_name), slug_component(creator)))), 'modio_game_id': modio_game_id, 'modio_mod_id': str(request.package.get('modio_mod_id', '')).strip(), 'IncompatibleIds': [], 'LoadAfterIds': [], 'Category': {language: 'Map' for language in LANGUAGES}, 'ModName': {language: display_name for language in LANGUAGES}, 'Description': {language: description for language in LANGUAGES}, 'CreatorName': creator, 'CreatorContact': creator_url, 'Image': None}
     if anno_value is not None:
         payload = {'Version': version, 'Anno': anno_value, **{k: v for k, v in payload.items() if k != 'Version'}}
     path = request.target / 'modinfo.json'

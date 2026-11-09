@@ -23,7 +23,7 @@ class ExportMapsAsModTab(ctk.CTkFrame):
         self._messages: Queue = Queue()
         self._worker: threading.Thread | None = None
         self._build_widgets()
-        self._apply_default_export_path()
+        self.sync_export_folder()
         self.reload()
         self.after(75, self._poll_worker_messages)
 
@@ -63,12 +63,12 @@ class ExportMapsAsModTab(ctk.CTkFrame):
     def set_game(self, game: str) -> None:
         """Switch the export context and load its default export path and packages."""
         self.game.set(game)
-        self._apply_default_export_path()
+        self.sync_export_folder()
         self.reload()
 
-    def _apply_default_export_path(self) -> None:
-        """Load the game-specific default export path from persisted settings."""
-        settings = load_settings()
+    def sync_export_folder(self, settings: dict | None = None) -> None:
+        """Keep Export Folder aligned with the selected game's Anno Mod Folder."""
+        settings = settings or load_settings()
         value = settings.get('games', {}).get(self.game.get(), {}).get('default_export_path', '')
         self.export_folder.set(value)
 
