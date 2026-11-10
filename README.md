@@ -4,6 +4,9 @@
 
 # Anno Island Package Creator
 
+> ## Anleitung zum Erstellen eines Inselpakets
+> Eine ausführliche Schritt-für-Schritt-Anleitung gibt es in **[create_island_package.md](create_island_package.md)**.
+
 A desktop tool for organizing custom `.a7m` island Islands into reusable **Island Packages** and exporting them as ready-to-use mods for **Anno 117** and **Anno 1800**.
 
 The application provides a guided workflow for importing Islands, assigning regions and GUIDs, grouping Islands into packages, adding extra mod files, and generating the game-specific mod structure and `assets.xml` automatically.
