@@ -1,15 +1,9 @@
 # Changelog
 
-## 1.1.1
+## 1.2.0
 
 ### Added
-- Island Type "Starter"
-
-
-## 1.1.0
-
-### Added
-- mod.io Mod ID to Island Package
+- "Island Size" (Anno 117 Islands)
 
 ### Fixes
-- Fixed some Bugs and Texts
+- fixed modinfo.json
