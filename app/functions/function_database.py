@@ -577,8 +577,8 @@ def change_island_size(game, map_files, new_size):
     """Set the explicit Anno 117 island placeholder size for selected maps."""
     if game != 'Anno 117':
         raise ValueError('Island Size is only available for Anno 117.')
-    if new_size not in ('Auto', 'Medium', 'Large', 'XL'):
-        raise ValueError('Island Size must be Auto, Medium, Large, or XL.')
+    if new_size not in ('Auto', 'Medium', 'Large', 'XL', 'Continental'):
+        raise ValueError('Island Size must be Auto, Medium, Large, XL, or Continental.')
     entries = load_entries(game)
     wanted = {str(Path(x).resolve()).casefold() for x in map_files}
     changed = 0

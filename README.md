@@ -4,9 +4,6 @@
 
 # Anno Island Package Creator
 
-> ## Anleitung zum Erstellen eines Inselpakets
-> Eine ausführliche Schritt-für-Schritt-Anleitung gibt es in **[create_island_package.md](create_island_package.md)**.
-
 A desktop tool for organizing custom `.a7m` island Islands into reusable **Island Packages** and exporting them as ready-to-use mods for **Anno 117** and **Anno 1800**.
 
 The application provides a guided workflow for importing Islands, assigning regions and GUIDs, grouping Islands into packages, adding extra mod files, and generating the game-specific mod structure and `assets.xml` automatically.
@@ -16,8 +13,9 @@ The application provides a guided workflow for importing Islands, assigning regi
 - Supports **Anno 117** and **Anno 1800** from one interface.
 - Imports individual `.a7m` files or recursively scans folders for Islands.
 - Assigns and manages GUIDs, regions, Island types, and Island Packages.
-- Reassigns GUIDs for unassigned Islands from the General range or for package Islands from their package-specific range.
-- Provides General-tab context-menu actions for adding Islands to and removing Islands from packages.
+- Imports Islands directly into the currently selected Island Package and automatically applies its configured Region and package-specific GUID range.
+- Reassigns package Island GUIDs from their package-specific range.
+- Provides Island Database context-menu actions for reviewing, editing, assigning, removing, and deleting Islands.
 - Supports `Normal` and `Decoration` island types.
 - Creates reusable Island Packages with Mod Name, Version, Region, and optional package-specific GUID ranges.
 - Supports custom game regions and region IDs.
@@ -76,20 +74,20 @@ Then configure:
 
 Click **Save Package Settings**.
 
-## 4. Import Islands
+## 4. Import Islands Directly into the Package
 
-Open **General**.
+Keep the new package selected in **Island Packages**.
 
 Use either:
 
-- **Add Island ( File )** for one `.a7m` file
-- **Add Island ( Folder )** to recursively find all `.a7m` files below a selected folder
+- **Add Islands ( File )** for one `.a7m` file
+- **Add Islands ( Folder )** to recursively find all `.a7m` files below a selected folder
 
-New Islands receive the next free GUID from the configured game GUID range.
+New Islands are assigned directly to the selected package. A configured package Region is applied automatically. If **Use different GUID ranges** is enabled, GUIDs are allocated from the package range; otherwise the selected game's general GUID range is used.
 
 ## 5. Configure Islands
 
-Select one or more Islands in the General table and right-click.
+Select one or more Islands in the **Island Database** table and right-click.
 
 Use the context menu to:
 
@@ -159,7 +157,7 @@ Open **Export Island Package as Mod**.
 The result is created as:
 
 ```text
-<Export Folder>\[IslandPackage] <Mod Name>\
+<Export Folder>[IslandPackage] <Mod Name>\
 ```
 
 The export log displays the files being copied and the generated metadata. If the target mod folder already exists, the application asks before replacing it.
@@ -174,7 +172,7 @@ The export log displays the files being copied and the generated metadata. If th
 
 Switches the complete working context between **Anno 117** and **Anno 1800**.
 
-Changing the game updates the General Island database, Island Packages, export package list, and game-specific export path.
+Changing the game updates the Island Database, Island Packages, export package list, and game-specific export path.
 
 ### GitHub
 
@@ -186,21 +184,9 @@ Opens the configured Ko-fi page in the default web browser.
 
 ---
 
-# General Tab
+# Island Database Tab
 
-The **General** tab is the main Island database for the currently selected game.
-
-## Add Island ( Folder )
-
-Opens a folder picker and recursively scans the selected directory for `.a7m` files.
-
-Each discovered Island is imported separately.
-
-## Add Island ( File )
-
-Imports one `.a7m` Island file.
-
-If the same source path already exists in the database, the application asks whether the existing entry should be updated or kept unchanged.
+The **Island Database** tab is the read-only workflow overview for all imported Islands of the currently selected game. It does not contain import buttons; new Islands are added from **Island Packages**.
 
 ## Filter
 
@@ -208,10 +194,6 @@ Filters the table by Island Package.
 
 - **All** shows every imported Island for the selected game.
 - Selecting an Island Package shows only Islands assigned to that package.
-
-## Reassign GUIDs
-
-Reassigns GUIDs for every Island that is not assigned to an Island Package. The active game's General **GUID Start / GUID End** range is used. GUIDs used by packaged Islands are reserved and skipped. The operation uses an **Apply / Cancel** confirmation and is not saved partially when the range is too small.
 
 ## Table columns
 
@@ -298,7 +280,7 @@ Renames the selected package and updates existing Island assignments.
 
 ### Delete
 
-Deletes the package definition and clears its assignments from Islands. The Islands themselves remain in the General database.
+Deletes the package definition and clears its assignments from Islands. The Islands themselves remain in the Island Database.
 
 ## Mod Name
 
@@ -362,7 +344,7 @@ This is useful for reserving a dedicated GUID block for a particular collection 
 
 Defines the inclusive package-specific range.
 
-When Islands are assigned to this package, the application can optionally allocate new free GUIDs from this range.
+When Islands are imported into this package, new free GUIDs are allocated automatically from this range.
 
 ## Island Package table
 
@@ -780,7 +762,7 @@ Before exporting, verify:
 - [ ] Mod Name configured
 - [ ] Version configured
 - [ ] Correct package Region selected
-- [ ] All Islands assigned to the package
+- [ ] Islands imported directly into the correct package
 - [ ] Each Island has the correct Region
 - [ ] Each Island has a unique GUID
 - [ ] Each Island has the correct `Normal` / `Decoration` Type
@@ -855,18 +837,20 @@ Konfiguriere danach:
 
 Klicke auf **Save Package Settings**.
 
-## 4. Inseln importieren
+## 4. Inseln direkt in das Paket importieren
 
-Öffne **General** und verwende:
+Lasse das neue Paket in **Island Packages** ausgewählt.
 
-- **Add Island ( File )** für eine einzelne `.a7m`-Datei
-- **Add Island ( Folder )** für eine rekursive Suche nach `.a7m`-Dateien in einem Ordner
+Verwende:
 
-Neue Inseln erhalten automatisch die nächste freie GUID aus dem konfigurierten GUID-Bereich.
+- **Add Islands ( File )** für eine einzelne `.a7m`-Datei
+- **Add Islands ( Folder )** für eine rekursive Suche nach `.a7m`-Dateien in einem Ordner
+
+Neue Inseln werden direkt dem ausgewählten Paket zugeordnet. Eine konfigurierte Paket-Region wird automatisch übernommen. Ist **Use different GUID ranges** aktiviert, werden GUIDs aus dem Paketbereich vergeben; andernfalls wird der allgemeine GUID-Bereich des ausgewählten Spiels verwendet.
 
 ## 5. Inseln konfigurieren
 
-Markiere eine oder mehrere Inseln in der General-Tabelle und öffne mit der rechten Maustaste das Kontextmenü.
+Markiere eine oder mehrere Inseln in der **Island Database** und öffne mit der rechten Maustaste das Kontextmenü.
 
 Dort kannst du:
 
@@ -936,7 +920,7 @@ Die Tabelle zeigt Quell-Root, vollständigen Quellpfad und ein Exportbeispiel. �
 Das Ergebnis wird hier erstellt:
 
 ```text
-<Export Folder>\[IslandPackage] <Mod Name>\
+<Export Folder>[IslandPackage] <Mod Name>\
 ```
 
 Das Export-Log zeigt kopierte Dateien und erzeugte Metadaten. Existiert der Zielordner bereits, fragt die Anwendung vor dem Ersetzen nach.
@@ -961,17 +945,9 @@ Wechselt den vollständigen Arbeitskontext zwischen **Anno 117** und **Anno 1800
 
 ---
 
-# Tab General
+# Tab Island Database
 
-Der Tab **General** enthält die zentrale Inselndatenbank des ausgewählten Spiels.
-
-## Add Island ( Folder )
-
-Öffnet eine Ordnerauswahl und durchsucht den gewählten Ordner rekursiv nach `.a7m`-Dateien. Jede gefundene Insel wird einzeln importiert.
-
-## Add Island ( File )
-
-Importiert eine einzelne `.a7m`-Insel. Ist derselbe Quellpfad bereits vorhanden, kann der bestehende Eintrag aktualisiert oder unverändert beibehalten werden.
+Der Tab **Island Database** zeigt die zentrale Übersicht aller importierten Inseln des ausgewählten Spiels. Der Import erfolgt ausschließlich im Tab **Island Packages**.
 
 ## Filter
 
@@ -979,10 +955,6 @@ Filtert die Tabelle nach Island Package.
 
 - **All** zeigt alle importierten Inseln des ausgewählten Spiels.
 - Ein ausgewähltes Island Package zeigt nur die darin enthaltenen Inseln.
-
-## Reassign GUIDs
-
-Vergibt die GUIDs aller Inseln neu, die keinem Island Package zugeordnet sind. Verwendet wird der allgemeine **GUID Start / GUID End**-Bereich des aktiven Spiels. GUIDs paketgebundener Inseln bleiben reserviert und werden übersprungen. Die Aktion wird mit **Apply / Cancel** bestätigt und bei zu kleinem Bereich nicht teilweise gespeichert.
 
 ## Tabellenspalten
 
@@ -1031,7 +1003,9 @@ Wählt das zu bearbeitende Paket aus.
 
 - **New:** erstellt ein neues Island Package und vergibt intern eine zweistellige Package-ID
 - **Rename:** benennt das Paket um und aktualisiert vorhandene Inselnzuweisungen
-- **Delete:** löscht die Paketdefinition und entfernt die Zuweisungen, lässt die Inseln aber in der General-Datenbank
+- **Delete:** löscht die Paketdefinition und entfernt die Zuweisungen, lässt die Inseln aber in der Island Database
+- **Add Islands ( File ):** importiert eine `.a7m` direkt in das ausgewählte Paket
+- **Add Islands ( Folder ):** importiert rekursiv alle `.a7m` aus einem Ordner direkt in das ausgewählte Paket
 
 ## Mod Name
 
@@ -1083,7 +1057,7 @@ Aktiviert einen separaten GUID-Bereich für dieses Island Package.
 
 ### GUID Start / GUID End
 
-Definiert den inklusiven paketbezogenen GUID-Bereich. Beim Zuweisen von Inseln können daraus neue freie GUIDs vergeben werden.
+Definiert den inklusiven paketbezogenen GUID-Bereich. Beim Import in dieses Paket werden daraus automatisch neue freie GUIDs vergeben.
 
 ### Reassign GUIDs
 
@@ -1414,7 +1388,7 @@ Der gespeicherte zusätzliche Quellordner wurde verschoben oder gelöscht. Den u
 - [ ] Mod Name eingetragen
 - [ ] Version eingetragen
 - [ ] Richtige Paket-Region ausgewählt
-- [ ] Alle Inseln dem Paket zugewiesen
+- [ ] Inseln direkt in das richtige Paket importiert
 - [ ] Jede Insel besitzt die richtige Region
 - [ ] Jede Insel besitzt eine eindeutige GUID
 - [ ] Jede Insel besitzt den richtigen Typ `Normal` oder `Decoration`

@@ -1,16 +1,18 @@
 """Island Packages tab presentation. It owns package selection and editing interactions, package-map table wiring, and dialog launching while delegating data mutations to feature functions."""
+from pathlib import Path
 import customtkinter as ctk
+from tkinter import filedialog
 from app.config.config_app import SUPPORTED_GAMES
 from app.config.config_regions import get_fixed_regions
-from app.functions.function_database import load_packages, package_names, package_entries, add_package, rename_package, delete_package, update_package_options, remove_from_package, change_guid, change_type, set_region, reassign_package_guids, change_island_size
-from app.templates.template_dialog import TextInputDialog, ConfirmDialog, AppDialog, GuidDialog, RegionSelectionDialog, TypeSelectionDialog, IslandSizeSelectionDialog
+from app.functions.function_database import load_packages, package_names, package_entries, add_package, rename_package, delete_package, update_package_options, remove_from_package, change_guid, change_type, set_region, reassign_package_guids, change_island_size, import_map, apply_package_to_maps
+from app.templates.template_dialog import TextInputDialog, ConfirmDialog, AppDialog, DuplicateDialog, GuidDialog, RegionSelectionDialog, TypeSelectionDialog, IslandSizeSelectionDialog
 from app.templates.template_table import SortableTable
 from app.ui.ui_dialog_additional_files import AdditionalFilesDialog
 
 class MapPackagesTab(ctk.CTkFrame):
   """Represent the MapPackagesTab component and own its lifecycle within this module."""
 
-  def __init__(self, master, selected_game='Anno 117'):
+  def __init__(self, master, selected_game='Anno 117', get_settings=None):
       """Perform the init operation for this module responsibility.
 
 Args:
@@ -24,6 +26,7 @@ Side effects:
   May update application state, persistent data, filesystem content, or UI state as implied by the owning module."""
       super().__init__(master)
       self.on_data_changed = lambda: self.load_selected()
+      self.get_settings = get_settings or (lambda: {'games': {}})
       self.game = ctk.StringVar(value=selected_game)
       self.package = ctk.StringVar()
       self.mod_name = ctk.StringVar()
@@ -53,6 +56,8 @@ Side effects:
       ctk.CTkButton(top, text='New', width=75, command=self.new).pack(side='left', padx=(10, 4))
       ctk.CTkButton(top, text='Rename', width=75, command=self.rename).pack(side='left', padx=4)
       ctk.CTkButton(top, text='Delete', width=75, fg_color='#b33a3a', command=self.delete).pack(side='left', padx=4)
+      ctk.CTkButton(top, text='Add Islands ( Folder )', command=self.add_folder).pack(side='right', padx=(8, 0))
+      ctk.CTkButton(top, text='Add Islands ( File )', command=self.add_file).pack(side='right')
       opts = ctk.CTkFrame(self)
       opts.pack(fill='x', padx=18, pady=8)
       ctk.CTkLabel(opts, text='Mod Name').grid(row=0, column=0, padx=14, pady=10, sticky='w')
@@ -87,6 +92,57 @@ Side effects:
       self.table = SortableTable(self, cols)
       self.table.pack(fill='both', expand=True, padx=18, pady=(4, 18))
       self._build_context_menu()
+
+  def _import_range(self):
+      pkg = next((x for x in load_packages(self.game.get()) if x['name'] == self.package.get()), None)
+      if pkg and pkg.get('use_different_guid_ranges'):
+          return pkg.get('guid_start', ''), pkg.get('guid_end', '')
+      settings = self.get_settings().get('games', {}).get(self.game.get(), {})
+      return settings.get('guid_start', ''), settings.get('guid_end', '')
+
+  def _import_island(self, path, update_duplicate=False):
+      package_name = self.package.get().strip()
+      if not package_name:
+          AppDialog(self, 'Add Islands', 'Create or select an Island Package first.')
+          return
+      try:
+          start, end = self._import_range()
+          status, _ = import_map(self.game.get(), path, start, end, update_duplicate)
+          if status == 'duplicate' and not update_duplicate:
+              DuplicateDialog(self, path, lambda: self._import_island(path, True))
+              return
+          pkg = next((x for x in load_packages(self.game.get()) if x['name'] == package_name), None)
+          apply_package_to_maps(
+              self.game.get(), [path], package_name,
+              apply_guids=bool(pkg and pkg.get('use_different_guid_ranges')),
+              apply_region=bool(pkg and pkg.get('region')),
+          )
+          self.load_selected()
+          self.on_data_changed()
+      except (ValueError, OSError) as e:
+          AppDialog(self, 'Import Failed', str(e))
+
+  def add_file(self):
+      if not self.package.get().strip():
+          AppDialog(self, 'Add Islands', 'Create or select an Island Package first.')
+          return
+      path = filedialog.askopenfilename(parent=self, title='Select Anno Island', filetypes=[('Anno island files', '*.a7m'), ('All files', '*.*')])
+      if path:
+          self._import_island(path)
+
+  def add_folder(self):
+      if not self.package.get().strip():
+          AppDialog(self, 'Add Islands', 'Create or select an Island Package first.')
+          return
+      folder = filedialog.askdirectory(parent=self, title='Select Folder Containing Anno Islands')
+      if not folder:
+          return
+      files = sorted(Path(folder).rglob('*.a7m'), key=lambda x: str(x).casefold())
+      if not files:
+          AppDialog(self, 'No Islands Found', 'No .a7m files were found in the selected folder.')
+          return
+      for path in files:
+          self._import_island(str(path))
 
   def open_additional_files(self):
       """Perform the open additional files operation for this module responsibility.

@@ -88,7 +88,7 @@ class ExportMapsAsModTab(ctk.CTkFrame):
             AppDialog(self, 'Export Failed', str(error))
             return
         if request.target.exists():
-            ConfirmDialog(self, 'Replace Existing Mod', f'The folder "{request.target.name}" already exists. Replace it?', lambda: self._start_worker(request))
+            ConfirmDialog(self, 'Replace Existing Mod', f'The folder "{request.target.name}" already exists. Replace it?', lambda: self._start_worker(request), confirm_text='Replace')
         else:
             self._start_worker(request)
 
@@ -103,7 +103,7 @@ class ExportMapsAsModTab(ctk.CTkFrame):
         mod_name = str(package.get('mod_name', '')).strip()
         if not mod_name:
             raise ValueError('Set Mod Name in the Island Packages tab first.')
-        if any((character in mod_name for character in '<>:"/\\|?*')):
+        if any((character in mod_name for character in '<>:"/\|?*')):
             raise ValueError('Mod Name contains invalid Windows filename characters.')
         export_root = Path(self.export_folder.get().strip())
         if not export_root.is_dir():

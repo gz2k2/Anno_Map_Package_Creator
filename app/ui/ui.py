@@ -65,12 +65,13 @@ class MainWindow(ctk.CTk):
         """Create the primary tabs and connect cross-tab refresh callbacks."""
         tabs = ctk.CTkTabview(self)
         tabs.pack(fill='both', expand=True, padx=14, pady=(6, 14))
-        for name in ('General', 'Island Packages', 'Export Island Package as Mod', 'Settings'):
+        for name in ('Island Packages', 'Island Database', 'Export Island Package as Mod', 'Settings'):
             tabs.add(name)
-        self.general = GeneralTab(tabs.tab('General'), self.settings['selected_game'], self.game_changed, self.current_settings)
-        self.general.pack(fill='both', expand=True)
-        self.packages_tab = MapPackagesTab(tabs.tab('Island Packages'), self.settings['selected_game'])
+        self.packages_tab = MapPackagesTab(tabs.tab('Island Packages'), self.settings['selected_game'], self.current_settings)
         self.packages_tab.pack(fill='both', expand=True)
+        self.general = GeneralTab(tabs.tab('Island Database'), self.settings['selected_game'], self.game_changed, self.current_settings)
+        self.general.pack(fill='both', expand=True)
+        self.packages_tab = self.packages_tab
         self.export_maps_tab = ExportMapsAsModTab(tabs.tab('Export Island Package as Mod'), self.settings['selected_game'])
         self.export_maps_tab.pack(fill='both', expand=True)
         self.general.on_data_changed = self.refresh_all_tables

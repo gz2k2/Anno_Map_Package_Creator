@@ -317,7 +317,7 @@ class IslandSizeSelectionDialog(ctk.CTkToplevel):
         self.geometry('450x210')
         self.transient(master)
         self.grab_set()
-        values = ['Auto', 'Medium', 'Large', 'XL']
+        values = ['Auto', 'Medium', 'Large', 'XL', 'Continental']
         self.var = ctk.StringVar(value=current if current in values else 'Auto')
         ctk.CTkLabel(self, text='Change Island Size', font=ctk.CTkFont(size=20, weight='bold')).pack(padx=24, pady=(24, 10), anchor='w')
         ctk.CTkLabel(self, text='Island Size').pack(padx=24, anchor='w')

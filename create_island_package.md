@@ -23,22 +23,22 @@ For all this, you need my [Island Package Creator](https://github.com/gz2k2/Anno
 
 ---
 
-## 2. Importing & Configuring in Island Package Creator
+## 2. Create and Configure the Island Package
 
-1. Open **Island Package Creator**, set the target game to **Anno 117** (or **Anno 1800**), and click **Add Islands (Folder)**.
-2. Select your main working folder (`my own Islands`). Your exported islands will appear in the app list.
-3. **Configure Island Specs:** Right-click each island in the list to assign the correct **island size** and **region**.
+1. Open **Island Package Creator** and select **Anno 117** or **Anno 1800**.
+2. Open **Island Packages**, click **New**, and create the package before importing Islands.
+3. Enter the **Mod Name** and **Version**. Optionally configure a default **Region** and enable **Use different GUID ranges** with a package-specific GUID range.
+4. Click **Save Package Settings**.
 
 ---
 
-## 3. Building the Island Package
+## 3. Import Islands Directly into the Package
 
-1. **Create Package:** Go to the **Island Packages** tab, create a new package, set its name and version, and optionally select a default region.
-2. **Assign Islands:** Return to the **General** tab, select the islands you wish to include (mass selection supported), right-click, and add them to your package.
-3. **Attach Assets:** 
-   * Go back to the **Island Packages** tab and click on your newly created package to verify your listed islands.
-   * Click the **Additional Files** button.
-   * Click **Add Files**, navigate to `my own Islands/additional_files`, select the folder, and click **Save**.
+1. Keep the target package selected in **Island Packages**.
+2. Click **Add Islands (Folder)** and select your working folder (`my own Islands`), or use **Add Islands (File)** for one `.a7m`.
+3. Every imported Island is assigned directly to the selected package. The configured package Region and package-specific GUID range are applied automatically when enabled.
+4. Review the package table. Use the right-click menu to adjust **Region**, **GUID**, **Type**, or Anno 117 **Island Size** when required.
+5. Click **Additional Files**, choose **Add Files**, select `my own Islands/additional_files`, and click **Save**.
 
 ---
 

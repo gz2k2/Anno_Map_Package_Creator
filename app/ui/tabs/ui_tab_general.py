@@ -1,11 +1,9 @@
-"""General map-management tab. It owns map-list presentation, filtering, context-menu wiring, and user interactions while delegating persistence operations to feature functions."""
-from pathlib import Path
+"""Island Database presentation tab. It owns map-list presentation, filtering, context-menu wiring, and user interactions while delegating persistence operations to feature functions."""
 import customtkinter as ctk
-from tkinter import filedialog
 from app.config.config_app import SUPPORTED_GAMES
-from app.functions.function_database import load_entries, import_map, set_region, delete_maps, assign_map_package, load_packages, package_names, get_package, apply_package_to_maps, change_guid, change_type, reassign_unassigned_guids, remove_from_package, change_island_size
+from app.functions.function_database import load_entries, set_region, delete_maps, assign_map_package, load_packages, package_names, get_package, apply_package_to_maps, change_guid, change_type, remove_from_package, change_island_size
 from app.templates.template_table import SortableTable
-from app.templates.template_dialog import AppDialog, DuplicateDialog, RegionDialog, ConfirmDialog, PackageSelectionDialog, YesNoDialog, GuidDialog, RegionSelectionDialog, TypeSelectionDialog, IslandSizeSelectionDialog
+from app.templates.template_dialog import AppDialog, RegionDialog, ConfirmDialog, PackageSelectionDialog, YesNoDialog, GuidDialog, RegionSelectionDialog, TypeSelectionDialog, IslandSizeSelectionDialog
 from app.config.config_regions import get_fixed_regions
 
 class GeneralTab(ctk.CTkFrame):
@@ -30,17 +28,12 @@ Side effects:
       self.game_var = ctk.StringVar(value=selected_game)
       self.on_game_changed = on_game_changed
       self.get_settings = get_settings
-      actions = ctk.CTkFrame(self, fg_color='transparent')
-      actions.pack(fill='x', padx=18, pady=(0, 8))
-      ctk.CTkButton(actions, text='Add Islands ( Folder )', command=self.add_folder).pack(side='left', padx=(0, 8))
-      ctk.CTkButton(actions, text='Add Islands ( File )', command=self.add_file).pack(side='left')
       filter_bar = ctk.CTkFrame(self, fg_color='transparent')
       filter_bar.pack(fill='x', padx=18, pady=(0, 10))
       ctk.CTkLabel(filter_bar, text='Filter').pack(side='left', padx=(0, 8))
       self.filter_var = ctk.StringVar(value='All')
       self.filter_menu = ctk.CTkOptionMenu(filter_bar, values=['All'], variable=self.filter_var, command=lambda _: self.reload(), width=220)
       self.filter_menu.pack(side='left')
-      ctk.CTkButton(filter_bar, text='Reassign GUIDs', command=self.confirm_reassign_guids).pack(side='right')
       cols = [('Map_Name', 'Island Name', 190), ('Region', 'Region', 120), ('Map_Package', 'Island Package', 180), ('GUID', 'GUID', 120), ('Type', 'Type', 110), ('Island_Size', 'Island Size', 110), ('Map_File', 'Map File', 320)]
       self.table = SortableTable(self, cols)
       self.table.pack(fill='both', expand=True, padx=18, pady=(0, 18))
@@ -81,109 +74,6 @@ Side effects:
       if current != 'All':
           entries = [e for e in entries if e.map_package == current]
       self.table.set_rows([(e.map_name, e.region, e.map_package, e.guid, e.map_type, e.island_size if self.game_var.get() == 'Anno 117' else '', e.map_file) for e in entries])
-
-  def confirm_reassign_guids(self):
-      """Confirm reassignment of GUIDs for maps without a Map Package."""
-      ConfirmDialog(
-          self,
-          "Reassign GUIDs",
-          "Reassign all GUIDs for maps that are not assigned to a Map Package using the General GUID range?",
-          self.reassign_unassigned_guids,
-          confirm_text="Apply",
-          confirm_color=("#3B8ED0", "#1F6AA5"),
-      )
-
-  def reassign_unassigned_guids(self):
-      """Reassign unassigned-map GUIDs from the active game's General range."""
-      try:
-          start, end = self._range()
-          changed = reassign_unassigned_guids(self.game_var.get(), start, end)
-          self.reload()
-          self.on_data_changed()
-          AppDialog(self, "Reassign GUIDs", f"Reassigned {changed} GUID(s).")
-      except (ValueError, OSError) as error:
-          AppDialog(self, "Reassign GUIDs", str(error))
-
-  def _range(self):
-      """Perform the range operation for this module responsibility.
-
-Returns:
-  The operation result when one is produced; otherwise None.
-
-Side effects:
-  May update application state, persistent data, filesystem content, or UI state as implied by the owning module."""
-      s = self.get_settings()
-      v = s['games'][self.game_var.get()]
-      return (v['guid_start'], v['guid_end'])
-
-  def _import(self, path):
-      """Perform the import operation for this module responsibility.
-
-Args:
-  path: Input used by the import operation.
-
-Returns:
-  The operation result when one is produced; otherwise None.
-
-Side effects:
-  May update application state, persistent data, filesystem content, or UI state as implied by the owning module."""
-      try:
-          a, b = self._range()
-          status, _ = import_map(self.game_var.get(), path, a, b)
-          if status == 'duplicate':
-              DuplicateDialog(self, path, lambda: self._update(path))
-          else:
-              self.on_data_changed()
-      except (ValueError, OSError) as e:
-          AppDialog(self, 'Import Failed', str(e))
-
-  def _update(self, path):
-      """Perform the update operation for this module responsibility.
-
-Args:
-  path: Input used by the update operation.
-
-Returns:
-  The operation result when one is produced; otherwise None.
-
-Side effects:
-  May update application state, persistent data, filesystem content, or UI state as implied by the owning module."""
-      try:
-          a, b = self._range()
-          import_map(self.game_var.get(), path, a, b, True)
-          self.on_data_changed()
-      except (ValueError, OSError) as e:
-          AppDialog(self, 'Import Failed', str(e))
-
-  def add_file(self):
-      """Perform the add file operation for this module responsibility.
-
-Returns:
-  The operation result when one is produced; otherwise None.
-
-Side effects:
-  May update application state, persistent data, filesystem content, or UI state as implied by the owning module."""
-      p = filedialog.askopenfilename(parent=self, title='Select Anno Map', filetypes=[('Anno map files', '*.a7m'), ('All files', '*.*')])
-      if p:
-          self._import(p)
-
-  def add_folder(self):
-      """Perform the add folder operation for this module responsibility.
-
-Returns:
-  The operation result when one is produced; otherwise None.
-
-Side effects:
-  May update application state, persistent data, filesystem content, or UI state as implied by the owning module."""
-      folder = filedialog.askdirectory(parent=self, title='Select Folder Containing Anno Maps')
-      if not folder:
-          return
-      files = sorted(Path(folder).rglob('*.a7m'), key=lambda p: str(p).casefold())
-      if not files:
-          AppDialog(self, 'No Maps Found', 'No .a7m files were found in the selected folder.')
-          return
-      for p in files:
-          self._import(str(p))
 
   def _build_context_menu(self):
       """Perform the build context menu operation for this module responsibility.
