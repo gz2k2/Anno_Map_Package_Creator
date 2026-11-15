@@ -81,7 +81,7 @@ def write_modinfo(request: ExportRequest, anno_value: int | None=None) -> Path:
     if not creator:
         raise ValueError('Set Creator in Settings > General before exporting.')
 
-    # Build the payload with a ModID that is a combination of "mappackage", the slugified mod name, and the slugified creator name. The display name and description are prefixed with "[IslandPackage]". The payload includes version, Anno value (if provided), category, mod name, description, creator name, and contact information. The modinfo.json file is written to the target directory with UTF-8 encoding and proper formatting.
+    # Build the payload with a ModID that is a combination of "islandpackage", the slugified mod name, and the slugified creator name. The display name and description are prefixed with "[IslandPackage]". The payload includes version, Anno value (if provided), category, mod name, description, creator name, and contact information. The modinfo.json file is written to the target directory with UTF-8 encoding and proper formatting.
     # to add CreatorName and CreatorContact to the payload, we can include them in the dictionary as follows:
     # display_name = f'[IslandPackage] {mod_name} {creator}'
     # description = f'[IslandPackage] {mod_name} by {creator}'
@@ -91,7 +91,7 @@ def write_modinfo(request: ExportRequest, anno_value: int | None=None) -> Path:
     modio_game_id = '11358' if request.game == 'Anno 117' else '4169' if request.game == 'Anno 1800' else ''
     mod_name_slug = slug_component(mod_name)
     creator_slug = slug_component(creator)
-    mod_id_parts = ['mappackage', mod_name_slug]
+    mod_id_parts = ['islandpackage', mod_name_slug]
     if creator_slug and mod_name_slug != creator_slug and not mod_name_slug.endswith(f'-{creator_slug}'):
         mod_id_parts.append(creator_slug)
     payload = {'Version': version, 'ModID': '-'.join(filter(None, mod_id_parts)), 'modio_game_id': modio_game_id, 'modio_mod_id': str(request.package.get('modio_mod_id', '')).strip(), 'IncompatibleIds': [], 'LoadAfterIds': [], 'Category': {language: 'Map' for language in LANGUAGES}, 'ModName': {language: display_name for language in LANGUAGES}, 'Description': {language: description for language in LANGUAGES}, 'CreatorName': creator, 'CreatorContact': creator_url, 'Image': None}
